@@ -1,12 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.fabricmc.example.mixin",
+  "package": "net.mooosik.minerino.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
-    "ExampleMixin"
+    "TitleScreenMixin",
+    "ExampleMixin",
+    "ChatHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

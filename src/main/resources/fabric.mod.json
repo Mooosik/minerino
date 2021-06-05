@@ -19,7 +19,8 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "net.mooosik.minerino.Minerino",
+      "net.mooosik.minerino.command.CommandInitializer"
     ]
   },
   "mixins": [
