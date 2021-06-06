@@ -5,8 +5,14 @@ import com.github.philippheuer.events4j.core.EventManager;
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
+import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.network.MessageType;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.mooosik.minerino.config.ModConfig;
+import net.mooosik.minerino.util.SizedStack;
 
 import java.util.*;
 
@@ -18,6 +24,10 @@ public class Twitch {
 
     private static HashMap<String, Formatting> TwitchUserColors = new HashMap<>();
 
+    private static HashMap<String, SizedStack<Text>> chatMessages = new HashMap<>();
+
+
+    public static boolean SWITCHMODE = false;
 
     /**
      * Setup the twitch client
@@ -41,13 +51,18 @@ public class Twitch {
 
     }
 
+    public static void close() {
+        TWITCHCLIENT.close();
+        TWITCHCLIENT = null;
+    }
+
 
     public static boolean containsNotification(String message) {
         List<String> notifications = ModConfig.getConfig().getNotificationList();
 
         for (String s: notifications
              ) {
-            if(message.contains(s)) {
+            if(message.toLowerCase().contains(s.toLowerCase()) && !message.toLowerCase().contains(s.toLowerCase()+ ":")) {  //Make sure we don't ping ourselves
                 return  true;
             }
 
@@ -101,14 +116,66 @@ public class Twitch {
             }
             }
 
-return f;
+        return f;
 
 
     }
 
+    /***
+     * Join a channel and add it the channel to the chatMessages HashMap
+     * @param channel
+     * @return
+     */
+    public static boolean joinChannel(String channel) {
+        try {
+            TWITCHCLIENT.getChat().joinChannel(channel);
+            chatMessages.put(channel, new SizedStack<>(50));
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
+
+    public static HashMap<String, SizedStack<Text>> getChatMessages() {
+        return chatMessages;
+    }
+
+    /**
+     * Switch to a different channel
+     * @param channel
+     * @return
+     */
+    public static boolean switchChat(String channel) {
+        if(chatMessages.containsKey(channel)) {     //First check if the channel exists
+
+            //Get current channel and attach a message that will show up the next time we switch to the channel. This way we have a marker which messages are new
+            chatMessages.get(ModConfig.getConfig().getActiveChat()).push(new LiteralText("[Minerino] New messages:").formatted(Formatting.GREEN));
+
+
+            //Switch to new chat
+            ModConfig.getConfig().setActiveChat(channel);
+            ModConfig.getConfig().save();
+
+            SWITCHMODE = true;      //Turn on switchmode so notifications and message manipulations dont begin
+
+            //Send join success message
+            MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.CHAT, new LiteralText("[Minerino] Switched to channel " + channel).formatted(Formatting.GREEN),UUID.randomUUID());
+            for (Text message: chatMessages.get(channel)    //Add all queued messages
+                 ) {
+                MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.CHAT, message, UUID.randomUUID());
+            }
+
+
+            SWITCHMODE = false;
+            return true;
+        } else {
+            return false;
+        }
 
 
     }
+}
 
 

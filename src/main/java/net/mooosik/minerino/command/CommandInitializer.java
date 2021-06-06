@@ -46,10 +46,12 @@ public class CommandInitializer implements ModInitializer {
 
         dispatcher.register(literal("minerino")
                 .then(MinerinoJoin.build()));
-                /*.then(argument("argu", StringArgumentType.word()))
-                        .executes(context -> {
-                            context.getSource().sendFeedback(new LiteralText("hi"),false);
-                            return 0;
-                        }));*/
+
+        dispatcher.register(literal("minerino")
+                .then(MinerinoLeave.build()));
+
+        dispatcher.register(literal("minerino")
+                .then(MinerinoChat.build()));
+
     }
 }

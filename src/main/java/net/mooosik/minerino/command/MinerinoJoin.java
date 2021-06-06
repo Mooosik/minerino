@@ -17,33 +17,35 @@ public class MinerinoJoin {
         return literal("join").then(argument("channel", StringArgumentType.word()).executes(context -> {       //if only login
 
             if(Twitch.getClient() == null) {
-                ((FabricClientCommandSource) context.getSource()).sendError(new LiteralText("Connect to Twitch first using /minerino login"));
+                ((FabricClientCommandSource) context.getSource()).sendError(new LiteralText("[Minerino] Connect to Twitch first using /minerino login"));
                 return -1;
             }
 
             ModConfig config = ModConfig.getConfig();
 
-            String channelString = StringArgumentType.getString(context, "channel");
-            if(!config.getChannels().contains(channelString)) {
+            String channelString = StringArgumentType.getString(context, "channel").toLowerCase();
 
+            if(channelString.equals("minecraft")) {
+                ((FabricClientCommandSource) context.getSource()).sendError(new LiteralText("[Minerino] You can't join Minecraft"));
 
-                try {
-                    Twitch.getClient().getChat().joinChannel(channelString);
-                } catch (Exception e) {
-                    ((FabricClientCommandSource) context.getSource()).sendError(new LiteralText("Failed to join channel "
-                            + channelString + ". Maybe the channel doesn't exist?"));
-                    e.printStackTrace();
-                    return -1;
-                }
-
-                config.getChannels().add(channelString);
-                config.save();
-
-                ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("Joined channel " + channelString));
-                return 1;
+                return -1;
             }
 
-            ((FabricClientCommandSource) context.getSource()).sendError(new LiteralText("Already joined channel " + channelString));
+            if(!config.getChannels().contains(channelString)) {
+                if(Twitch.joinChannel(channelString)) {
+                    config.setActiveChat(channelString);
+                    config.getChannels().add(channelString);
+                    config.save();
+                    ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] Joined channel " + channelString));
+                    return 1;
+                } else {
+                    ((FabricClientCommandSource) context.getSource()).sendError(new LiteralText("[Minerino] Failed to join channel "
+                            + channelString + ". Maybe the channel doesn't exist?"));
+                    return -1;
+                }
+            }
+
+            ((FabricClientCommandSource) context.getSource()).sendError(new LiteralText("[Minerino] Already joined channel " + channelString));
                 return -1;
 
 

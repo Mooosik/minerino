@@ -34,5 +34,8 @@ public class TwitchEventHandler {
        // System.out.println(color.getRGB());
         MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.CHAT, message, UUID.randomUUID());
 
+
     }
+
+
 }

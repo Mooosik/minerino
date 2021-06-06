@@ -19,12 +19,15 @@ public class MinerinoLogout {
             ModConfig config = ModConfig.getConfig();
 
             if(Twitch.getClient() == null) {
-                ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("You are not logged in!"));
+                ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] You are not logged in!"));
                 return -1;
             }
 
-            Twitch.getClient().close();
-            ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("Closed connection to Twitch"));
+            Twitch.close();
+
+
+            Twitch.switchChat("Minecraft");
+            ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] Closed connection to Twitch"));
             return 1;
 
         });

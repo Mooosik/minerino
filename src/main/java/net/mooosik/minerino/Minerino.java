@@ -14,6 +14,7 @@ import net.mooosik.minerino.chat.ColorCalculator;
 import net.mooosik.minerino.config.ModConfig;
 import net.mooosik.minerino.twitch.Twitch;
 import net.mooosik.minerino.twitch.TwitchEventHandler;
+import net.mooosik.minerino.util.SizedStack;
 
 import java.awt.*;
 
@@ -32,19 +33,9 @@ public class Minerino implements ModInitializer {
 
 		ModConfig.getConfig().load();
 		ColorCalculator.setup();
+
+		Twitch.getChatMessages().put("Minecraft", new SizedStack<>(50));
 	}
 
-
-	public static void main(String[] args) {
-		//Twitch.calculateMCColor(16777215);
-		//Twitch.calculateMCColor(0);
-		//Twitch.calculateMCColor(44497);
-
-		ColorCalculator.setup();
-
-		//System.out.println(ColorCalculator.getMCColor(new Color(Integer.decode("00ADD1"))).getName());
-
-
-	}
 
 }
