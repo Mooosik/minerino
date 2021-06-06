@@ -15,6 +15,8 @@ import net.mooosik.minerino.config.ModConfig;
 import net.mooosik.minerino.util.SizedStack;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Twitch {
 
@@ -57,14 +59,24 @@ public class Twitch {
     }
 
 
+    /**
+     * Check if the message contains a notification
+     * @param message
+     * @return
+     */
     public static boolean containsNotification(String message) {
         List<String> notifications = ModConfig.getConfig().getNotificationList();
 
         for (String s: notifications
              ) {
-            if(message.toLowerCase().contains(s.toLowerCase()) && !message.toLowerCase().contains(s.toLowerCase()+ ":")) {  //Make sure we don't ping ourselves
-                return  true;
+
+            String regex = "^.+?(> |: ).*\\b@?"+ s + "\\b";     //This regex string was created with the help of @nakomaru (on twitch). Thanks DonkHappy
+            Pattern p = Pattern.compile(regex);
+
+            if(p.matcher(message).find()) {
+                return true;
             }
+
 
         }
 
