@@ -71,7 +71,7 @@ public class Twitch {
              ) {
 
             String regex = "^.+?(> |: ).*\\b@?"+ s + "\\b";     //This regex string was created with the help of @nakomaru (on twitch). Thanks DonkHappy
-            Pattern p = Pattern.compile(regex);
+            Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 
             if(p.matcher(message).find()) {
                 return true;

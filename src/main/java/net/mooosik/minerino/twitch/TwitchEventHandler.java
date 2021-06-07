@@ -8,6 +8,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
 import net.mooosik.minerino.chat.ColorCalculator;
+import net.mooosik.minerino.config.ModConfig;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -18,6 +19,10 @@ public class TwitchEventHandler {
 
     @EventSubscriber
     public void printChannelMessage(ChannelMessageEvent event) {
+
+        if(ModConfig.getConfig().getIgnoreList().contains(event.getUser().getName().toLowerCase())) {
+            return;
+        }
 
         MutableText message = new LiteralText("[" + event.getChannel().getName() + "] ").formatted(Formatting.DARK_PURPLE);
         Formatting userNameFormatting;

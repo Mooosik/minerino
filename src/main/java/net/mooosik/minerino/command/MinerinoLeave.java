@@ -14,7 +14,16 @@ public class MinerinoLeave {
 
     public static LiteralArgumentBuilder build() {
 
-        return literal("leave").then(argument("channel", StringArgumentType.word()).executes(context -> {       //if only login
+        return literal("leave").then(argument("channel", StringArgumentType.word()).suggests((context, builder) -> {
+
+            for (String s : Twitch.getChatMessages().keySet()) {
+
+                builder.suggest(s);
+
+            }
+            return builder.buildFuture();
+
+        }).executes(context -> {       //if only login
 
             if(Twitch.getClient() == null) {
                 ((FabricClientCommandSource) context.getSource()).sendError(new LiteralText("[Minerino] Connect to Twitch first using /minerino login"));

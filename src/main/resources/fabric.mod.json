@@ -4,9 +4,9 @@
   "version": "${version}",
 
   "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "A Twitch Chat Mod aiming to provide feature similar to the popular twitch chat software Chatterino",
   "authors": [
-    "Me!"
+    "M0oosik"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",

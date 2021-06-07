@@ -56,5 +56,10 @@ public class CommandInitializer implements ModInitializer {
         dispatcher.register(literal("minerino")
                 .then(MinerinoAlert.build()));
 
+        dispatcher.register(literal("minerino")
+                .then(MinerinoIgnore.build()));
+
+        dispatcher.register(literal("minerino")
+                .then(MinerinoUnignore.build()));
     }
 }

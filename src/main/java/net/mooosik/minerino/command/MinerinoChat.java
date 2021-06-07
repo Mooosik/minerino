@@ -17,7 +17,7 @@ public class MinerinoChat {
 
     public static LiteralArgumentBuilder build() {
         return literal("switch")
-                .then(argument("channel", StringArgumentType.word())/*.suggests((context, builder) -> {
+                .then(argument("channel", StringArgumentType.word()).suggests((context, builder) -> {
 
                     for (String s : Twitch.getChatMessages().keySet()) {
 
@@ -26,7 +26,7 @@ public class MinerinoChat {
                     }
                     return builder.buildFuture();
 
-                })*/.executes(context -> {
+                }).executes(context -> {
                     String channel = StringArgumentType.getString(context, "channel");
 
                     if(Twitch.getClient() == null) {
