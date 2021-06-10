@@ -37,10 +37,6 @@ public class ScreenMixin {
                 MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.CHAT, mctext, UUID.randomUUID());
                 ci.cancel();
             }
-
-
-
-
         }
 }
 

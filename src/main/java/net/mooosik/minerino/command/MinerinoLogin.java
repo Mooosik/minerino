@@ -4,7 +4,9 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
+import net.minecraft.text.ClickEvent;
 import net.minecraft.text.LiteralText;
+import net.minecraft.util.Formatting;
 import net.mooosik.minerino.config.ModConfig;
 import net.mooosik.minerino.twitch.Twitch;
 
@@ -53,8 +55,9 @@ public class MinerinoLogin {
     private static int login(CommandContext context, ModConfig config) {
         if(config.getUsername().equals("") || config.getOauthKey().equals("")) {
             ((FabricClientCommandSource) context.getSource())
-                    .sendFeedback(new LiteralText("[Minerino] Please sign in with an oAuthentication token first. " +
-                            "You can use https://twitchapps.com/tmi/ to generate a token. Remove the \"oauth:\" part from the token."));
+                    .sendFeedback(new LiteralText("[Minerino] Please sign in with an oAuthentication token first. You can use ").append(
+                            new LiteralText("https://twitchapps.com/tmi/").styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,"https://twitchapps.com/tmi/"))).formatted(Formatting.BLUE))
+                                    .append(" to generate a token. Remove the \"oauth:\" part from the token."));
 
             return -1;
         }

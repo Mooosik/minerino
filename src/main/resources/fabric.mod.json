@@ -3,7 +3,7 @@
   "id": "modid",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "Minerino",
   "description": "A Twitch Chat Mod aiming to provide feature similar to the popular twitch chat software Chatterino",
   "authors": [
     "M0oosik"
