@@ -33,10 +33,11 @@ public class MinerinoJoin {
 
             if(!config.getChannels().contains(channelString)) {
                 if(Twitch.joinChannel(channelString)) {
-                    config.setActiveChat(channelString);
+                    //config.setActiveChat(channelString);
                     config.getChannels().add(channelString);
+                    Twitch.switchChat(channelString);
                     config.save();
-                    ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] Joined channel " + channelString));
+                    //((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] Joined & switched to channel " + channelString));
                     return 1;
                 } else {
                     ((FabricClientCommandSource) context.getSource()).sendError(new LiteralText("[Minerino] Failed to join channel "

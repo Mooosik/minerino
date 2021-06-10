@@ -20,6 +20,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 
+/**
+ * This class is wip */
 public class SpruceMainMenuScreen extends SpruceScreen {
     private final Screen parent;
     private SpruceTabbedWidget tabbedWidget;
@@ -36,7 +38,6 @@ public class SpruceMainMenuScreen extends SpruceScreen {
         int startY = this.height / 4 + 48;
 
         SpruceTextFieldWidget widget = new SpruceTextFieldWidget(Position.of(this, this.width / 2 - 75, this.height - 58),150, 20, new LiteralText("OAUTH"));
-        widget.setText("oc cute peepoBlush");
 
         super.init();
         this.tabbedWidget = new SpruceTabbedWidget(Position.of(this, 0, 4), this.width, this.height - 35 - 4, this.title);

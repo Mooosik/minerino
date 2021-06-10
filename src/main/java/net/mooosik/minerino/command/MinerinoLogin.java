@@ -6,6 +6,7 @@ import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
 import net.mooosik.minerino.config.ModConfig;
 import net.mooosik.minerino.twitch.Twitch;
@@ -68,14 +69,20 @@ public class MinerinoLogin {
 
             if(config.getChannels().size() > 0) {
 
-                String joinedChannels = "";
+                MutableText joinedChannels = new LiteralText("");
+                //String joinedChannels = "";
                 for (String channel: config.getChannels()
                 ) {
                     if(Twitch.joinChannel(channel)) {
-                        joinedChannels += channel + "; ";
+
+                        joinedChannels.append(Twitch.buildLinkedText(channel));
                     }
                 }
-                ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] Connected to channel(s) " + joinedChannels));
+                joinedChannels.formatted(Formatting.DARK_PURPLE);
+
+
+                ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] Connected to channel(s) ").append(joinedChannels));
+                ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] Click on a channel to switch to it!").formatted(Formatting.BLUE));
                 ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] Your active chat is set to " + config.getActiveChat()));
             } else {
                 ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] No channels found to connect to. Use /minerino join <channel>"));

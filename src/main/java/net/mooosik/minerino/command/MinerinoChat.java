@@ -35,7 +35,7 @@ public class MinerinoChat {
                     }
                     if(!Twitch.switchChat(channel)) {
                         ((FabricClientCommandSource) context.getSource()).sendError(new LiteralText("[Minerino] Failed to switch to channel "
-                                + channel + ". Maybe the channel doesn't exist?"));
+                                + channel + "."));
                     }
 
                     return 1;

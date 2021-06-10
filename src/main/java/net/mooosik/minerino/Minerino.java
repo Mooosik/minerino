@@ -1,22 +1,13 @@
 package net.mooosik.minerino;
 
 
-import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
-import com.github.philippheuer.events4j.core.EventManager;
-import com.github.philippheuer.events4j.simple.SimpleEventHandler;
-import com.github.twitch4j.TwitchClient;
-import com.github.twitch4j.TwitchClientBuilder;
-import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.TranslatableText;
-import net.mooosik.minerino.chat.ColorCalculator;
+import net.minecraft.text.ClickEvent;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.mooosik.minerino.config.ModConfig;
 import net.mooosik.minerino.twitch.Twitch;
-import net.mooosik.minerino.twitch.TwitchEventHandler;
 import net.mooosik.minerino.util.SizedStack;
-
-import java.awt.*;
 
 public class Minerino implements ModInitializer {
 
@@ -32,9 +23,9 @@ public class Minerino implements ModInitializer {
 
 
 		ModConfig.getConfig().load();
-		ColorCalculator.setup();
 
 		Twitch.getChatMessages().put("Minecraft", new SizedStack<>(50));
+
 	}
 
 

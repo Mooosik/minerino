@@ -6,6 +6,7 @@ import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.ClickEvent;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -29,7 +30,7 @@ public class ChatHudMixin {
      * @param text text that gets modified
      * @return
      */
-    @ModifyArg(method = "addMessage", at = @At(value ="INVOKE",
+    @ModifyArg(method = "addMessage", at = @At(value ="INVOKE",     //It claims this is an error, but it isn't FeelsDankMan
             target = "Lnet/minecraft/client/gui/hud/ChatHud;addMessage(Lnet/minecraft/text/Text;I)V" ),
             index = 0)
     public Text modifyText(Text text) {
@@ -39,13 +40,13 @@ public class ChatHudMixin {
             //If its a default minecraft message, add the [Minecraft] prefix
             //This could cause issues if someone is joining the Minecraft twitch channel
             if (text.getString().startsWith("<")) {
-                text = new LiteralText("[Minecraft] ").formatted(Formatting.GREEN).append(new LiteralText(text.getString()).formatted(Formatting.WHITE));
+                text = Twitch.buildLinkedText("Minecraft").formatted(Formatting.GREEN).append(new LiteralText(text.getString()).formatted(Formatting.WHITE));
             }
 
             if (!text.getString().startsWith("[Minerino]") && Twitch.containsNotification(text.getString())) {        //If the message is a notification in this message
                 PlayerEntity player = MinecraftClient.getInstance().player;   //get the player to play a sound at the player's location
                 MinecraftClient.getInstance().world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.BLOCKS, 0.5f, 1f);
-                Text tmp = new LiteralText("[Alert]" + text.getString()).formatted(Formatting.RED); //change the color of the message to red so it stands out
+                Text tmp = new LiteralText("[Alert]").append(text).formatted(Formatting.RED); //change the color of the message to red so it stands out
                 return tmp;
             }
 

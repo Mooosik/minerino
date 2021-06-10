@@ -8,7 +8,9 @@ import com.github.twitch4j.TwitchClientBuilder;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.MessageType;
+import net.minecraft.text.ClickEvent;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.mooosik.minerino.config.ModConfig;
@@ -93,27 +95,11 @@ public class Twitch {
         return TWITCHCLIENT;
     }
 
-    public static Formatting calculateMinecraftColor(Integer color) {
-        int compare = (int)Math.floor(colors.length / 2);
-        for(int i = (int)Math.floor(colors.length / 4); i > 0; i = (int)Math.floor(i / 2)) {
-
-            if(color >= colors[compare].getColorValue()) {
-                //compare = Math.min(compare + i, colors.length-1);
-                compare = compare +i;
-            } else if(color < colors[compare].getColorValue()) {
-                //compare = Math.max(compare - i, 0);
-                compare = compare -i;
-            } else {
-                break;
-            }
-
-        }
-
-
-        System.out.println(compare);
-        return colors[compare];
-    }
-
+    /**
+     * Calculate chat color based on distance
+     * @param color
+     * @return
+     */
     public static Formatting calculateMCColor(Integer color) {
        int i = colors.length -1;
         int distance = Math.abs(colors[i].getColorValue() - color);
@@ -154,6 +140,8 @@ public class Twitch {
         return chatMessages;
     }
 
+
+
     /**
      * Switch to a different channel
      * @param channel
@@ -161,6 +149,11 @@ public class Twitch {
      */
     public static boolean switchChat(String channel) {
         if(chatMessages.containsKey(channel)) {     //First check if the channel exists
+
+            if(channel.equals(ModConfig.getConfig().getActiveChat())) {
+                MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.CHAT, new LiteralText("[Minerino] You are already reading " + channel).formatted(Formatting.RED),UUID.randomUUID());
+                return false;
+            }
 
             //Get current channel and attach a message that will show up the next time we switch to the channel. This way we have a marker which messages are new
             chatMessages.get(ModConfig.getConfig().getActiveChat()).push(new LiteralText("[Minerino] New messages:").formatted(Formatting.GREEN));
@@ -185,8 +178,15 @@ public class Twitch {
         } else {
             return false;
         }
+    }
 
-
+    /**
+     * Builds the prefix and makes it clickable to make switching to different channels easier
+     * @param channel
+     * @return
+     */
+    public static MutableText buildLinkedText(String channel) {
+        return new LiteralText("["+ channel + "] ").styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minerino switch " + channel)));
     }
 }
 

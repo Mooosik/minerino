@@ -14,6 +14,10 @@ but I decided I wanted to be independent and started from scratch.
 - Custom notifications / alert
 - Ignore chatters
 
+## Installation
+This mod uses fabric (https://fabricmc.net/use/) as well as the fabric api (https://www.curseforge.com/minecraft/mc-mods/fabric-api) 
+and is currently compatible with ```Minecraft 1.16.X```. After installing both of these, 
+put the minerino.jar in your minecraft mods folder (https://github.com/Mooosik/minerino/releases).
 
 ## Getting Started
 This mod is client-side only and should be compatible with most modpacks.
@@ -54,8 +58,13 @@ Notes: This does not apply to minecraft chat, only for twitch.
 Additionally, this is not linked to the ignore feature on twitch and will only apply for the minecraft client.
 
 ## Upcoming Features
-- 
+- 1.17 support
 - User interface for even more customization
 - Emote support
 - Forge Port
 
+## Additional info
+**Important!** This mod is not affiliated with the Chatterino software in any way!
+
+This mod uses the twitch4j java api (https://github.com/twitch4j/twitch4j) 
+as well as the spruce ui (https://github.com/LambdAurora/SpruceUI)
