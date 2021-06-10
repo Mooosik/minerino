@@ -1,9 +1,9 @@
-# Minerino | Fabric v.0.1
+# Minerino | v.0.1
 A Twitch Chat Integration for Minecraft!
 ## About
 This mod aims to bring a lot of features from the standalone twitch chat software chatterino (https://chatterino.com/) to Minecraft.
 
-Originally, this mod was a fork of Pablo Rodriguez' twitch chat mod (https://github.com/PabloPerezRodriguez/twitch-chat) 
+Originally, this mod was planned as a fork of this modmod (https://github.com/PabloPerezRodriguez/twitch-chat) 
 but I decided I wanted to be independent and started from scratch.
 
 ## Features
