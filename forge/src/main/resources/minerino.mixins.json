@@ -5,6 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "minerino.refmap.json",
   "mixins": [
+    "ScreenMixin",
+    "NewChatGuiMixin"
   ],
   "client": [
   ],

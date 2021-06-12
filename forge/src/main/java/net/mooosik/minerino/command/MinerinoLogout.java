@@ -1,12 +1,13 @@
 package net.mooosik.minerino.command;
 
+import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
-import net.minecraft.text.LiteralText;
+import net.minecraft.command.CommandSource;
+import net.minecraft.util.text.StringTextComponent;
 import net.mooosik.minerino.config.ModConfig;
 import net.mooosik.minerino.twitch.Twitch;
 
-import static net.minecraft.server.command.CommandManager.literal;
+import static com.mojang.brigadier.builder.LiteralArgumentBuilder.literal;
 
 public class MinerinoLogout {
 
@@ -19,7 +20,7 @@ public class MinerinoLogout {
             ModConfig config = ModConfig.getConfig();
 
             if(Twitch.getClient() == null) {
-                ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] You are not logged in!"));
+                ((CommandSource) context.getSource()).sendFeedback(new StringTextComponent("[Minerino] You are not logged in!"), false);
                 return -1;
             }
 
@@ -27,7 +28,7 @@ public class MinerinoLogout {
 
 
             Twitch.switchChat("Minecraft");
-            ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] Closed connection to Twitch"));
+            ((CommandSource) context.getSource()).sendFeedback(new StringTextComponent("[Minerino] Closed connection to Twitch"), false);
             return 1;
 
         });
