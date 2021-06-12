@@ -15,13 +15,20 @@ but I decided I wanted to be independent and started from scratch.
 - Ignore chatters
 
 ## Installation
-This mod uses fabric (https://fabricmc.net/use/) as well as the fabric api (https://www.curseforge.com/minecraft/mc-mods/fabric-api) 
-and is currently compatible with ```Minecraft 1.16.X```. After installing both of these, 
-put the minerino.jar in your minecraft mods folder (https://github.com/Mooosik/minerino/releases).
+### Fabric
+
+Download & install fabric (https://fabricmc.net/use/) as well as the fabric api (https://www.curseforge.com/minecraft/mc-mods/fabric-api). 
+Afterwards, put the minerino-fabric.jar in your minecraft mods folder (https://github.com/Mooosik/minerino/releases).
+
+### Forge
+Download & Install forge (https://files.minecraftforge.net/net/minecraftforge/forge/)
+Afterwards, put the minerino-forge.jar in your minecraft mods folder (https://github.com/Mooosik/minerino/releases).
 
 ## Getting Started
 This mod is client-side only and should be compatible with most modpacks.
 It currently does not feature an interface, all the basic setup is done via commands.
+
+(Optional: I highly recommend decreasing Chat Text Size as well as increasing Line Spacing in your Chat Settings (Minecraft > Settings > Chat Settings) for better readability)
 
 ### Logging in
 
@@ -34,6 +41,8 @@ To join a channel, use ```/minerino join <channel>```. You can join as many chan
 For better readability, you only see one channel at a time.
 
 **Important!** You will send messages to the channel that is currently active. There is no prefix required!
+
+A Twitch Channels' Moderation Settings still apply
 
 (Use ```/minerino leave <channel>``` to leave the channel)
 ### Switching channels
@@ -61,7 +70,6 @@ Additionally, this is not linked to the ignore feature on twitch and will only a
 - 1.17 support
 - User interface for even more customization
 - Emote support
-- Forge Port
 
 ## Additional info
 **Important!** This mod is not affiliated with the Chatterino software in any way!
