@@ -54,6 +54,10 @@ public class MinerinoLogin {
      * @return command success / failure
      */
     private static int login(CommandContext context, ModConfig config) {
+
+        ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] Attempting to log in..."));
+
+
         if(config.getUsername().equals("") || config.getOauthKey().equals("")) {
             ((FabricClientCommandSource) context.getSource())
                     .sendFeedback(new LiteralText("[Minerino] Please sign in with an oAuthentication token first. You can use ").append(
