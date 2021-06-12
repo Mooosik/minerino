@@ -11,7 +11,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 public class MinerinoLogout {
 
     /**
-     * Build the "login" command
+     * Build the "logout" command
      * @return
      */
     public static LiteralArgumentBuilder build() {

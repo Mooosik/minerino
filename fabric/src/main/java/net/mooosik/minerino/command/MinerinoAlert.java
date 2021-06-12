@@ -14,7 +14,7 @@ public class MinerinoAlert {
 
 
     /**
-     * Command for adding / removing commands
+     * Command for adding / removing alerts
      * @return
      */
     public static LiteralArgumentBuilder build() {

@@ -13,7 +13,7 @@ import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
-public class MinerinoChat {
+public class MinerinoSwitch {
 
     public static LiteralArgumentBuilder build() {
         return literal("switch")

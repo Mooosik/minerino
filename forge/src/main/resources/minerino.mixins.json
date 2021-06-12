@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.mooosik.minerino.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "minerino.refmap.json",
+  "mixins": [
+    "ScreenMixin",
+    "NewChatGuiMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
