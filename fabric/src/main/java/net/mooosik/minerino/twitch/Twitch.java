@@ -188,6 +188,12 @@ public class Twitch {
     public static MutableText buildLinkedText(String channel) {
         return new LiteralText("["+ channel + "] ").styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minerino switch " + channel)));
     }
+
+
+    public static void sendMessage(String channel, String message) {
+        TWITCHCLIENT.getChat().sendMessage(channel, message);     //Send the message via TwitchClient
+    }
+
 }
 
 

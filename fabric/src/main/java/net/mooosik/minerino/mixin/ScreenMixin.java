@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class ScreenMixin {
 
             if(!config.getActiveChat().equals("Minecraft") && !text.startsWith("/")) {      //If the currently active chat is not minecraft AND its not a command
 
-                Twitch.getClient().getChat().sendMessage(config.getActiveChat(), text);     //Send the message via TwitchClient
+                Twitch.sendMessage(config.getActiveChat(), text);
 
                 Text mctext = new LiteralText("[" + config.getActiveChat() + "] ").formatted(Formatting.DARK_PURPLE)        //add the text to minecraft (needs to be formatted ofc)
                         .append(new LiteralText(config.getUsername())
