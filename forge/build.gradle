@@ -162,7 +162,7 @@ dependencies {
 
 
     shade 'com.github.twitch4j:twitch4j:1.2.1'
-
+/*
     compile 'com.github.twitch4j:twitch4j-chat:1.2.1'
     compile 'com.github.twitch4j:twitch4j-auth:1.2.1'
     compile 'com.github.twitch4j:twitch4j-common:1.2.1'
@@ -200,7 +200,7 @@ dependencies {
     compile 'com.neovisionaries:nv-websocket-client:2.14'
     compile 'com.github.ben-manes.caffeine:caffeine:2.9.0'
 
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.13'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.13'*/
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.13'
 }
 
