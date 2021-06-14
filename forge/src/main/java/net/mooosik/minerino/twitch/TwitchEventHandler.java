@@ -29,7 +29,6 @@ public class TwitchEventHandler {
             userNameFormatting = Twitch.calculateMCColor(Integer.decode(event.getMessageEvent().getTagValue("color").get()));
             Twitch.getTwitchUserColors().put(event.getUser().getName(), userNameFormatting);
         }
-
         message.appendSibling(new StringTextComponent(event.getUser().getName()).mergeStyle(userNameFormatting))
                 .appendSibling(new StringTextComponent(": " +event.getMessage()).mergeStyle(TextFormatting.WHITE));
 

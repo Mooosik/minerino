@@ -180,7 +180,7 @@ public class Twitch {
      * @return
      */
     public static IFormattableTextComponent buildLinkedText(String channel) {
-        return new StringTextComponent("["+ channel + "] ").setStyle(Style.EMPTY.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minerino switch " + channel)));
+        return new StringTextComponent("["+ channel + "] ").modifyStyle((style) -> style.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minerino switch " + channel)));
     }
 }
 

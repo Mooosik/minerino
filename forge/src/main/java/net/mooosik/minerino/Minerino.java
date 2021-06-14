@@ -15,6 +15,7 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -36,11 +37,12 @@ import java.util.stream.Collectors;
 public class Minerino {
 
     // Directly reference a log4j logger.
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
 
     public Minerino() {
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+
         // Register the enqueueIMC method for modloading
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -49,7 +51,7 @@ public class Minerino {
 
     private void setup(final FMLCommonSetupEvent event) {
         LOGGER.info("MINERINO SETUP");
-
+        CommandInitializer.setup();
         ModConfig.getConfig().load();
         ModConfig.getConfig().save();
         Twitch.getChatMessages().put("Minecraft", new SizedStack<>(50));
