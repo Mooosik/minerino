@@ -7,12 +7,15 @@ Originally, this mod was planned as a fork of this modmod (https://github.com/Pa
 but I decided I wanted to be independent and started from scratch.
 
 ## Features
+- Client-side only (Works on multiplayer servers!)
 - Join multiple channels at once
 - Switch between channels you want to read
 - Messages are temporarily stored so you don't miss out on any conversation
 - Type in the channel you want without any prefixes!
 - Custom notifications / alert
 - Ignore chatters
+
+
 
 ## Installation
 ### Fabric
@@ -23,6 +26,11 @@ Afterwards, put the minerino-fabric.jar in your minecraft mods folder (https://g
 ### Forge
 Download & Install forge (https://files.minecraftforge.net/net/minecraftforge/forge/)
 Afterwards, put the minerino-forge.jar in your minecraft mods folder (https://github.com/Mooosik/minerino/releases).
+
+**IMPORTANT FOR FORGE USERS**
+
+Forge currently does not *properly* support client-side commands in multiplayer. They do work, but will show up as
+"incorrect / unknown" in multiplayer!
 
 ## Getting Started
 This mod is client-side only and should be compatible with most modpacks.
@@ -66,6 +74,29 @@ Use ```/minerino ignore <username>``` to ignore someone OR ```/minerino unignore
 Notes: This does not apply to minecraft chat, only for twitch. 
 Additionally, this is not linked to the ignore feature on twitch and will only apply for the minecraft client.
 
+## All commands
+```
+/minerino login [<twitch username> <oAuth>]
+/minerino logout
+
+/minerino join <channel>
+/minerino leave <channel>
+/minerino switch <channel>
+/minerino list || /ml
+
+/minerino alert add <word>
+/minerino alert remove <word>
+
+/minerino ignore <username>
+/minerino unignore <username>
+
+/minerino help
+/minerino infoMessage true/false (FORGE ONLY: Removes default info message)
+```
+
+
+
+
 ## Upcoming Features
 - 1.17 support
 - User interface for even more customization
@@ -74,5 +105,4 @@ Additionally, this is not linked to the ignore feature on twitch and will only a
 ## Additional info
 **Important!** This mod is not affiliated with the Chatterino software in any way!
 
-This mod uses the twitch4j java api (https://github.com/twitch4j/twitch4j) 
-as well as the spruce ui (https://github.com/LambdAurora/SpruceUI)
+This mod uses the twitch4j java api (https://github.com/twitch4j/twitch4j)
