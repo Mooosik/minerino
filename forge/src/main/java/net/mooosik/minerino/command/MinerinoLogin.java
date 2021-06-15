@@ -55,9 +55,9 @@ public class MinerinoLogin {
 
         if(config.getUsername().equals("") || config.getOauthKey().equals("")) {
             ((CommandSource) context.getSource())
-                    .sendFeedback(new StringTextComponent("[Minerino] Please sign in with an oAuthentication token first. You can use ").appendSibling(
+                    .sendFeedback(new StringTextComponent("[Minerino] Please sign in first using \"/minerino login <twitch username> <token>\". You can use ").appendSibling(
                             new StringTextComponent("https://twitchapps.com/tmi/").setStyle(Style.EMPTY.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,"https://twitchapps.com/tmi/"))).mergeStyle(TextFormatting.BLUE))
-                            .appendString(" to generate a token. Remove the \"oauth:\" part from the token."),false);
+                            .appendString(" to generate an oAuthentication token. Remove the \"oauth:\" part from the token."),false);
 
             return -1;
         }

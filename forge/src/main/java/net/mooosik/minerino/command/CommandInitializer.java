@@ -16,14 +16,19 @@ import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.mooosik.minerino.Minerino;
+
+import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = "minerino", value = Dist.CLIENT)
 public class CommandInitializer {
 
     public static CommandDispatcher<CommandSource> dispatcher;
+
+    public static boolean SENDINFOMESSAGE = true;
 
     @SubscribeEvent
     public static void initialize(final RegisterCommandsEvent event) {
@@ -37,9 +42,22 @@ public class CommandInitializer {
         eventDispatcher.register(literal("minerino").then(MinerinoAlert.build()));
         eventDispatcher.register(literal("minerino").then(MinerinoIgnore.build()));
         eventDispatcher.register(literal("minerino").then(MinerinoUnignore.build()));
+        eventDispatcher.register(literal("minerino").then(MinerinoHelp.build()));
+        eventDispatcher.register(literal("minerino").then(MinerinoList.build()));
+
+        eventDispatcher.register(MinerinoList.buildShort());
+
 
     }
 
+
+
+
+    /**
+     * Setup clientside dispatcher
+     * Fixes commands not working on multiplayer servers
+     * ISSUE: Doesnt suggest commands
+     */
     public static void setup() {
         CommandInitializer.dispatcher = new CommandDispatcher<>();
 
@@ -51,12 +69,34 @@ public class CommandInitializer {
         dispatcher.register(literal("minerino").then(MinerinoAlert.build()));
         dispatcher.register(literal("minerino").then(MinerinoIgnore.build()));
         dispatcher.register(literal("minerino").then(MinerinoUnignore.build()));
+        dispatcher.register(literal("minerino").then(MinerinoHelp.build()));
+        dispatcher.register(literal("minerino").then(MinerinoList.build()));
+
+        dispatcher.register(MinerinoList.buildShort());
 
     }
 
+    public static void sendInfoMessage() {
+        Minecraft.getInstance().ingameGUI.sendChatMessage(ChatType.CHAT, new StringTextComponent("[Minerino] Hi! Minerino on Forge is also working in multiplayer!"), UUID.randomUUID());
+        Minecraft.getInstance().ingameGUI.sendChatMessage(ChatType.CHAT, new StringTextComponent("[Minerino] However, for technical (and security) reasons, client-side commands are unkown to the server you're playing on."), UUID.randomUUID());
+        Minecraft.getInstance().ingameGUI.sendChatMessage(ChatType.CHAT, new StringTextComponent("[Minerino] Because of this, using /minerino is going to show up as if its an incorrect command."), UUID.randomUUID());
+        Minecraft.getInstance().ingameGUI.sendChatMessage(ChatType.CHAT, new StringTextComponent("[Minerino] The commands are still working! Use \"/minerino help\""), UUID.randomUUID());
+
+    }
+
+    /**
+     * Catch /minerino command to process it on client-side instead of sending it to server
+     * @param event
+     */
     @SubscribeEvent
     public static void onClientChat(ClientChatEvent event) {
-        if (event.getMessage().startsWith("/minerino ")) {
+
+        if(SENDINFOMESSAGE) {
+            SENDINFOMESSAGE = false;
+            sendInfoMessage();
+        }
+
+        if (event.getMessage().startsWith("/minerino ") || event.getMessage().startsWith("/ml")) {
             Minerino.LOGGER.info("ONCLIENTCHAT EVENT");
             final String message = event.getMessage();
             event.setCanceled(true);

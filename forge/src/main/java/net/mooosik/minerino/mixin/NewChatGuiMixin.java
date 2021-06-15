@@ -16,6 +16,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static net.mooosik.minerino.command.CommandInitializer.SENDINFOMESSAGE;
+import static net.mooosik.minerino.command.CommandInitializer.sendInfoMessage;
 import static net.mooosik.minerino.twitch.Twitch.SWITCHMODE;
 
 @Mixin(NewChatGui.class)
@@ -37,7 +39,9 @@ public class NewChatGuiMixin {
             //If its a default minecraft message, add the [Minecraft] prefix
             //This could cause issues if someone is joining the Minecraft twitch channel
             if (text.getString().startsWith("<")) {
-                text = Twitch.buildLinkedText("Minecraft").mergeStyle(TextFormatting.GREEN).appendSibling(new StringTextComponent(text.getString()).mergeStyle(TextFormatting.WHITE));
+                text = new StringTextComponent("")
+                        .appendSibling(Twitch.buildLinkedText("Minecraft").mergeStyle(TextFormatting.GREEN))
+                        .appendSibling(new StringTextComponent(text.getString()).mergeStyle(TextFormatting.WHITE));
             }
 
             if (!text.getString().startsWith("[Minerino]") && Twitch.containsNotification(text.getString())) {        //If the message is a notification in this message
@@ -54,7 +58,10 @@ public class NewChatGuiMixin {
 
     @Inject(at = @At("HEAD"), method = "printChatMessageWithOptionalDeletion", cancellable = true)
     public void addMessage(ITextComponent message, int messageId, CallbackInfo ci) {
-
+        if(SENDINFOMESSAGE) {
+            SENDINFOMESSAGE = false;
+            sendInfoMessage();
+        }
         if(!SWITCHMODE) {
             if(!message.getString().startsWith("[Minerino]")) {
                 if (message.getString().startsWith("[")) {        //If the message starts with [. This could lead to issues if something else manipulates the chat
