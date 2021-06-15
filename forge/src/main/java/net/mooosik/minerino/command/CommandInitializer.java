@@ -20,6 +20,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.mooosik.minerino.Minerino;
+import net.mooosik.minerino.config.ModConfig;
 
 import java.util.UUID;
 
@@ -28,7 +29,6 @@ public class CommandInitializer {
 
     public static CommandDispatcher<CommandSource> dispatcher;
 
-    public static boolean SENDINFOMESSAGE = true;
 
     @SubscribeEvent
     public static void initialize(final RegisterCommandsEvent event) {
@@ -43,6 +43,7 @@ public class CommandInitializer {
         eventDispatcher.register(literal("minerino").then(MinerinoIgnore.build()));
         eventDispatcher.register(literal("minerino").then(MinerinoUnignore.build()));
         eventDispatcher.register(literal("minerino").then(MinerinoHelp.build()));
+        eventDispatcher.register(literal("minerino").then(MinerinoInfoMessage.build()));
         eventDispatcher.register(literal("minerino").then(MinerinoList.build()));
 
         eventDispatcher.register(MinerinoList.buildShort());
@@ -70,17 +71,27 @@ public class CommandInitializer {
         dispatcher.register(literal("minerino").then(MinerinoIgnore.build()));
         dispatcher.register(literal("minerino").then(MinerinoUnignore.build()));
         dispatcher.register(literal("minerino").then(MinerinoHelp.build()));
+        dispatcher.register(literal("minerino").then(MinerinoInfoMessage.build()));
         dispatcher.register(literal("minerino").then(MinerinoList.build()));
 
         dispatcher.register(MinerinoList.buildShort());
 
     }
 
+    /**
+     * Fabric specific info message
+     */
     public static void sendInfoMessage() {
         Minecraft.getInstance().ingameGUI.sendChatMessage(ChatType.CHAT, new StringTextComponent("[Minerino] Hi! Minerino on Forge is also working in multiplayer!"), UUID.randomUUID());
         Minecraft.getInstance().ingameGUI.sendChatMessage(ChatType.CHAT, new StringTextComponent("[Minerino] However, for technical (and security) reasons, client-side commands are unkown to the server you're playing on."), UUID.randomUUID());
         Minecraft.getInstance().ingameGUI.sendChatMessage(ChatType.CHAT, new StringTextComponent("[Minerino] Because of this, using /minerino is going to show up as if its an incorrect command."), UUID.randomUUID());
         Minecraft.getInstance().ingameGUI.sendChatMessage(ChatType.CHAT, new StringTextComponent("[Minerino] The commands are still working! Use \"/minerino help\""), UUID.randomUUID());
+
+
+        Minecraft.getInstance().ingameGUI.sendChatMessage(ChatType.CHAT, new StringTextComponent("[Minerino] Dont show this message again: ").appendSibling(
+        new StringTextComponent("[ Click here ] ")
+                .modifyStyle((style) -> style.setClickEvent(
+                        new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minerino infoMessage false")))), UUID.randomUUID());
 
     }
 
@@ -91,8 +102,8 @@ public class CommandInitializer {
     @SubscribeEvent
     public static void onClientChat(ClientChatEvent event) {
 
-        if(SENDINFOMESSAGE) {
-            SENDINFOMESSAGE = false;
+        if(ModConfig.getConfig().INFOFLAG) {
+            ModConfig.getConfig().INFOFLAG = false;
             sendInfoMessage();
         }
 

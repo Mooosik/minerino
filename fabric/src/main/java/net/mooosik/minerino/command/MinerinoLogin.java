@@ -60,9 +60,9 @@ public class MinerinoLogin {
 
         if(config.getUsername().equals("") || config.getOauthKey().equals("")) {
             ((FabricClientCommandSource) context.getSource())
-                    .sendFeedback(new LiteralText("[Minerino] Please sign in with an oAuthentication token first. You can use ").append(
+                    .sendFeedback(new LiteralText("[Minerino] Please sign in first using \"/minerino login <twitch username> <token>\". You can use ").append(
                             new LiteralText("https://twitchapps.com/tmi/").styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,"https://twitchapps.com/tmi/"))).formatted(Formatting.BLUE))
-                                    .append(" to generate a token. Remove the \"oauth:\" part from the token."));
+                                    .append(" to generate an oAuthentication token. Remove the \"oauth:\" part from the token."));
 
             return -1;
         }

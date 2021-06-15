@@ -19,6 +19,9 @@ public class ModConfig {
     private static ModConfig CONFIG = null;
     private final File configFile;
 
+    private boolean sendInfoMessage;
+    public boolean INFOFLAG;
+
     private String channel;
     private String username;
     private String oauthKey;
@@ -43,6 +46,7 @@ public class ModConfig {
         this.notificationList = new ArrayList<>();
         this.channels = new ArrayList<>();
         this.activeChat = "Minecraft";
+        this.sendInfoMessage = true;
     }
 
     public static ModConfig getConfig() {
@@ -68,6 +72,12 @@ public class ModConfig {
                 this.oauthKey = jsonObject.has("oauthKey")
                         ? jsonObject.getAsJsonPrimitive("oauthKey").getAsString()
                         : "";
+
+                this.sendInfoMessage = jsonObject.has("sendInfoMessage")
+                        ? jsonObject.getAsJsonPrimitive("sendInfoMessage").getAsBoolean()
+                        : true;
+
+                INFOFLAG = this.sendInfoMessage;
 
                 if (jsonObject.has("channels")) {
                     JsonArray ignoreListJsonArray = jsonObject.getAsJsonArray("channels");
@@ -106,7 +116,7 @@ public class ModConfig {
         jsonObject.addProperty("activeChat", this.activeChat);
         jsonObject.addProperty("username", this.username);
         jsonObject.addProperty("oauthKey", this.oauthKey);
-
+        jsonObject.addProperty("sendInfoMessage", this.sendInfoMessage);
 
         JsonArray channelsList = new JsonArray();
         for (String username : this.channels) {
@@ -133,6 +143,7 @@ public class ModConfig {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
     }
 
     public String getChannel() {
@@ -185,5 +196,13 @@ public class ModConfig {
 
     public void setActiveChat(String activeChat) {
         this.activeChat = activeChat;
+    }
+
+    public boolean isSendInfoMessage() {
+        return sendInfoMessage;
+    }
+
+    public void setSendInfoMessage(boolean sendInfoMessage) {
+        this.sendInfoMessage = sendInfoMessage;
     }
 }

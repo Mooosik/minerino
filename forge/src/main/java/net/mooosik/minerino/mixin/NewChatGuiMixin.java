@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static net.mooosik.minerino.command.CommandInitializer.SENDINFOMESSAGE;
 import static net.mooosik.minerino.command.CommandInitializer.sendInfoMessage;
 import static net.mooosik.minerino.twitch.Twitch.SWITCHMODE;
 
@@ -58,8 +57,8 @@ public class NewChatGuiMixin {
 
     @Inject(at = @At("HEAD"), method = "printChatMessageWithOptionalDeletion", cancellable = true)
     public void addMessage(ITextComponent message, int messageId, CallbackInfo ci) {
-        if(SENDINFOMESSAGE) {
-            SENDINFOMESSAGE = false;
+        if(ModConfig.getConfig().INFOFLAG) {
+            ModConfig.getConfig().INFOFLAG = false;
             sendInfoMessage();
         }
         if(!SWITCHMODE) {
