@@ -3,8 +3,8 @@ A Twitch Chat Integration for Minecraft!
 ## About
 This mod aims to bring a lot of features from the standalone twitch chat software chatterino (https://chatterino.com/) to Minecraft.
 
-Originally, this mod was planned as a fork of this modmod (https://github.com/PabloPerezRodriguez/twitch-chat) 
-but I decided I wanted to be independent and started from scratch.
+Originally, this mod was planned as a fork of this fabric mod (https://github.com/PabloPerezRodriguez/twitch-chat) 
+but decided to be independent (and also support forge), so I started from scratch.
 
 ## Features
 - Client-side only (Works on multiplayer servers!)
@@ -14,8 +14,6 @@ but I decided I wanted to be independent and started from scratch.
 - Type in the channel you want without any prefixes!
 - Custom notifications / alert
 - Ignore chatters
-
-
 
 ## Installation
 ### Fabric
@@ -35,6 +33,8 @@ Forge currently does not *properly* support client-side commands in multiplayer.
 ## Getting Started
 This mod is client-side only and should be compatible with most modpacks.
 It currently does not feature an interface, all the basic setup is done via commands.
+
+To avoid leaking sensitive data, I recommend you to do the first login in a singleplayer world.
 
 (Optional: I highly recommend decreasing Chat Text Size as well as increasing Line Spacing in your Chat Settings (Minecraft > Settings > Chat Settings) for better readability)
 
@@ -98,6 +98,7 @@ Additionally, this is not linked to the ignore feature on twitch and will only a
 
 
 ## Upcoming Features
+- Language File Support
 - 1.17 support
 - User interface for even more customization
 - Emote support
