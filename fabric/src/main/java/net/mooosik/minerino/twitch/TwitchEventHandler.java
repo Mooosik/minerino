@@ -35,6 +35,7 @@ public class TwitchEventHandler {
         MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.CHAT, message, UUID.randomUUID());
 
 
+
     }
 
 
