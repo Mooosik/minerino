@@ -10,6 +10,11 @@ import static com.mojang.brigadier.builder.LiteralArgumentBuilder.literal;
 import static com.mojang.brigadier.builder.RequiredArgumentBuilder.argument;
 
 public class MinerinoSwitch {
+
+    /**
+     * Command to switch to a different channel
+     * @return
+     */
     public static LiteralArgumentBuilder build() {
         return literal("switch")
                 .then(argument("channel", StringArgumentType.word()).suggests((context, builder) -> {

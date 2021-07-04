@@ -48,7 +48,6 @@ public class NewChatGuiMixin {
                 return tmp;
             }
 
-
             if (!text.getString().startsWith("[Minerino]") && Twitch.containsNotification(text.getString())) {        //If the message is a notification in this message
                 PlayerEntity player = Minecraft.getInstance().player;   //get the player to play a sound at the player's location
                 Minecraft.getInstance().world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.BLOCKS, 0.5f, 1f);
@@ -59,7 +58,6 @@ public class NewChatGuiMixin {
         }
         return text;
     }
-
 
     @Inject(at = @At("HEAD"), method = "printChatMessageWithOptionalDeletion", cancellable = true)
     public void addMessage(ITextComponent message, int messageId, CallbackInfo ci) {
@@ -86,12 +84,9 @@ public class NewChatGuiMixin {
                     if (!message.getString().startsWith("[Alert]") && !message.getString().startsWith("[" + ModConfig.getConfig().getActiveChat())) {
                         ci.cancel();
                     }
-
                 }
             }
 
         }
     }
-
-
 }

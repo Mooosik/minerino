@@ -9,10 +9,13 @@ import net.minecraft.util.Formatting;
 import static com.mojang.brigadier.builder.LiteralArgumentBuilder.literal;
 
 public class MinerinoHelp {
+
+    /**
+     * Lists all commands of the mod
+     * @return
+     */
     public static LiteralArgumentBuilder build() {
-
         return literal("help").executes(context -> {
-
             ((FabricClientCommandSource) context.getSource())
                     .sendFeedback(new LiteralText("[Minerino] Commands:"));
             ((FabricClientCommandSource) context.getSource())

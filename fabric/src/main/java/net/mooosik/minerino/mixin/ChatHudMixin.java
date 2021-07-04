@@ -35,7 +35,6 @@ public class ChatHudMixin {
             index = 0)
     public Text modifyText(Text text) {
 
-
         if(!SWITCHMODE) {
             //If its a default minecraft message, add the [Minecraft] prefix
             //This could cause issues if someone is joining the Minecraft twitch channel

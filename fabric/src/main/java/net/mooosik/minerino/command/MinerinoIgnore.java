@@ -13,7 +13,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 public class MinerinoIgnore {
 
     /**
-     * add a user to the ignore list
+     * Add a user to the ignore list
      * @return
      */
     public static LiteralArgumentBuilder build() {
