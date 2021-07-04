@@ -43,6 +43,12 @@ public class NewChatGuiMixin {
                         .appendSibling(new StringTextComponent(text.getString()).mergeStyle(TextFormatting.WHITE));
             }
 
+            if(text.getString().startsWith("[Server]")) {
+                ITextComponent tmp = new StringTextComponent("").appendSibling(text).mergeStyle(TextFormatting.LIGHT_PURPLE).mergeStyle(TextFormatting.ITALIC);
+                return tmp;
+            }
+
+
             if (!text.getString().startsWith("[Minerino]") && Twitch.containsNotification(text.getString())) {        //If the message is a notification in this message
                 PlayerEntity player = Minecraft.getInstance().player;   //get the player to play a sound at the player's location
                 Minecraft.getInstance().world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.BLOCKS, 0.5f, 1f);
@@ -62,7 +68,9 @@ public class NewChatGuiMixin {
             sendInfoMessage();
         }
         if(!SWITCHMODE) {
-            if(!message.getString().startsWith("[Minerino]")) {
+            if(message.getString().startsWith("[Server]")) {        //if its a server message
+                Twitch.getChatMessages().get("Minecraft").push(message);        //add it to Minecraft logs
+            } else if(!message.getString().startsWith("[Minerino]")) {
                 if (message.getString().startsWith("[")) {        //If the message starts with [. This could lead to issues if something else manipulates the chat
 
                     String startsWith = message.getString().startsWith("[Alert]")?"[Alert][":"[";   //If its an alert, change the startsWith prefix
@@ -73,7 +81,6 @@ public class NewChatGuiMixin {
                             Twitch.getChatMessages().get(key).push(message);
                             break;
                         }
-
                     }
                     //If message is not an alert and is not a message belonging to the current chat, dont show it
                     if (!message.getString().startsWith("[Alert]") && !message.getString().startsWith("[" + ModConfig.getConfig().getActiveChat())) {

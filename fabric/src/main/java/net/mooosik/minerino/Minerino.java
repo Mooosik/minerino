@@ -2,12 +2,16 @@ package net.mooosik.minerino;
 
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.command.argument.ColorArgumentType;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
+import net.minecraft.util.Formatting;
 import net.mooosik.minerino.config.ModConfig;
 import net.mooosik.minerino.twitch.Twitch;
 import net.mooosik.minerino.util.SizedStack;
+
+import java.util.Arrays;
 
 public class Minerino implements ModInitializer {
 

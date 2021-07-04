@@ -42,6 +42,10 @@ public class ChatHudMixin {
             if (text.getString().startsWith("<")) {
                 text = Twitch.buildLinkedText("Minecraft").formatted(Formatting.GREEN).append(new LiteralText(text.getString()).formatted(Formatting.WHITE));
             }
+            if(text.getString().startsWith("[Server]")) {
+                Text tmp = new LiteralText("").append(text).formatted(Formatting.LIGHT_PURPLE).formatted(Formatting.ITALIC);
+                return tmp;
+            }
 
             if (!text.getString().startsWith("[Minerino]") && Twitch.containsNotification(text.getString())) {        //If the message is a notification in this message
                 PlayerEntity player = MinecraftClient.getInstance().player;   //get the player to play a sound at the player's location
@@ -58,7 +62,9 @@ public class ChatHudMixin {
     public void addMessage(Text message, int messageId, CallbackInfo ci) {
 
         if(!SWITCHMODE) {
-            if(!message.getString().startsWith("[Minerino]")) {
+            if(message.getString().startsWith("[Server]")) {        //if its a server message
+                Twitch.getChatMessages().get("Minecraft").push(message);        //add it to Minecraft logs
+            } else if(!message.getString().startsWith("[Minerino]")) {
                 if (message.getString().startsWith("[")) {        //If the message starts with [. This could lead to issues if something else manipulates the chat
 
                     String startsWith = message.getString().startsWith("[Alert]")?"[Alert][":"[";   //If its an alert, change the startsWith prefix
