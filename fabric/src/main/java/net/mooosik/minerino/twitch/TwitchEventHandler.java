@@ -26,7 +26,7 @@ public class TwitchEventHandler {
         if(Twitch.getTwitchUserColors().containsKey(event.getUser().getName())) {
             userNameFormatting = Twitch.getTwitchUserColors().get(event.getUser().getName());
         } else {
-            userNameFormatting = Twitch.calculateMCColor(Integer.decode(event.getMessageEvent().getTagValue("color").get()));
+            userNameFormatting = Twitch.calculateMinecraftColor(event.getMessageEvent().getTagValue("color").get());
             Twitch.getTwitchUserColors().put(event.getUser().getName(), userNameFormatting);
         }
 

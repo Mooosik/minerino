@@ -16,7 +16,9 @@ import net.minecraft.util.Formatting;
 import net.mooosik.minerino.config.ModConfig;
 import net.mooosik.minerino.util.SizedStack;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -95,29 +97,50 @@ public class Twitch {
         return TWITCHCLIENT;
     }
 
+
     /**
      * Calculate chat color based on distance
-     * @param color
+     * @param hex string
      * @return
      */
-    public static Formatting calculateMCColor(Integer color) {
-       int i = colors.length -1;
-        int distance = Math.abs(colors[i].getColorValue() - color);
-        int tmp;
+    public static Formatting calculateMinecraftColor(String hex) {
 
-        Formatting f = colors[0];
-        for(i = 14;i >= 0; i--) {
-            tmp = Math.abs(colors[i].getColorValue() - color);
-            if(tmp < distance ) {
-                distance = tmp;
-                f = colors[i];
+        Color twitchColor = Color.decode(hex);
+        Formatting calculatedFormatting = Formatting.WHITE;
+        double dist = 1000;
+        for (Formatting f: colors
+             ) {
+            Color tmpColor = new Color(f.getColorValue());
+            double tmp = colorDistance(twitchColor, tmpColor);
+
+            if(tmp < dist) {
+                dist = tmp;
+                calculatedFormatting = f;
             }
-            }
 
-        return f;
+        }
 
-
+        return calculatedFormatting;
     }
+
+    /**
+     * Calculates the distance between two colors
+     * Based on this paper: https://www.compuphase.com/cmetric.htm
+     * @param c1 color 1
+     * @param c2 color 2
+     * @return distance
+     */
+    private static double colorDistance(Color c1, Color c2) {
+        int red1 = c1.getRed();
+        int red2 = c2.getRed();
+        int rmean = (red1 + red2) >> 1;
+        int r = red1 - red2;
+        int g = c1.getGreen() - c2.getGreen();
+        int b = c1.getBlue() - c2.getBlue();
+        return Math.sqrt((((512+rmean)*r*r)>>8) + 4*g*g + (((767-rmean)*b*b)>>8));
+    }
+
+
 
     /***
      * Join a channel and add it the channel to the chatMessages HashMap
