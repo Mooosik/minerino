@@ -49,8 +49,10 @@ public class Twitch {
     }
 
     public static void close() {
-        TWITCHCLIENT.close();
-        TWITCHCLIENT = null;
+        if(TWITCHCLIENT != null) {
+            TWITCHCLIENT.close();
+            TWITCHCLIENT = null;
+        }
     }
 
 

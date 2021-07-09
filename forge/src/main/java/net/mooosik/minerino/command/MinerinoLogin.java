@@ -62,6 +62,7 @@ public class MinerinoLogin {
             return -1;
         }
 
+        Twitch.close();
 
         if(Twitch.setup()) {
             ((CommandSource) context.getSource()).sendFeedback(new StringTextComponent("[Minerino] Successfully signed in as " + config.getUsername()),false);

@@ -67,6 +67,7 @@ public class MinerinoLogin {
             return -1;
         }
 
+        Twitch.close();
 
         if(Twitch.setup()) {
             ((FabricClientCommandSource) context.getSource()).sendFeedback(new LiteralText("[Minerino] Successfully signed in as " + config.getUsername()));
