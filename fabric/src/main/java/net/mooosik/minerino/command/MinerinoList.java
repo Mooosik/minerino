@@ -59,7 +59,7 @@ public class MinerinoList {
         MutableText channels = new LiteralText("[Minerino] ");
         for ( String channel : Twitch.getChatMessages().keySet()
         ) {
-            channels.append(Twitch.buildLinkedText(channel).formatted(Formatting.DARK_PURPLE));
+            channels.append(Twitch.buildLinkedCommandText(channel, "/minerino switch ").formatted(Formatting.DARK_PURPLE));
         }
 
         ((FabricClientCommandSource) context.getSource())

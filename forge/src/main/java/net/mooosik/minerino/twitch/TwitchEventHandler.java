@@ -20,7 +20,7 @@ public class TwitchEventHandler {
             return;
         }
         IFormattableTextComponent message = new StringTextComponent("")
-                .appendSibling(Twitch.buildLinkedText(event.getChannel().getName()).mergeStyle(TextFormatting.DARK_PURPLE));
+                .appendSibling(Twitch.buildLinkedCommandText(event.getChannel().getName(),"/minerino switch ").mergeStyle(TextFormatting.DARK_PURPLE));
 
         TextFormatting userNameFormatting;
         if(Twitch.getTwitchUserColors().containsKey(event.getUser().getName())) {

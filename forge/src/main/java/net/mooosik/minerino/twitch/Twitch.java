@@ -29,17 +29,17 @@ public class Twitch {
     /**
      * Setup the twitch client
      */
-    public static boolean setup() {
+    public static boolean setup(String username, String key) {
         try {
             TWITCHCLIENT = TwitchClientBuilder.builder()
                     .withEnableChat(true)
                     .withDefaultEventHandler(SimpleEventHandler.class)
-                    .withChatAccount(new OAuth2Credential(ModConfig.getConfig().getUsername(), ModConfig.getConfig().getOauthKey()))
+                    .withChatAccount(new OAuth2Credential(username, key))
                     .build();
 
 
             TWITCHCLIENT.getEventManager().getEventHandler(SimpleEventHandler.class).registerListener(new TwitchEventHandler());
-
+            ModConfig.getConfig().setActiveAccount(username);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,9 +48,14 @@ public class Twitch {
 
     }
 
+    /**
+     * Closes the connection and sets the client back to null
+     */
     public static void close() {
-        TWITCHCLIENT.close();
-        TWITCHCLIENT = null;
+        if(TWITCHCLIENT != null) {
+            TWITCHCLIENT.close();
+            TWITCHCLIENT = null;
+        }
     }
 
 
@@ -198,12 +203,13 @@ public class Twitch {
     }
 
     /**
-     * Builds the prefix and makes it clickable to make switching to different channels easier
-     * @param channel
+     * Builds a linked text with a word and a command
+     * @param word
+     * @param command
      * @return
      */
-    public static IFormattableTextComponent buildLinkedText(String channel) {
-        return new StringTextComponent("["+ channel + "] ").modifyStyle((style) -> style.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minerino switch " + channel)));
+    public static IFormattableTextComponent buildLinkedCommandText(String word, String command) {
+        return new StringTextComponent("["+ word + "] ").modifyStyle((style) -> style.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command + word)));
     }
 }
 

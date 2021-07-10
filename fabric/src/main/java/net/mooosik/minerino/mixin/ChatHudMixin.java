@@ -6,13 +6,11 @@ import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.ClickEvent;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.mooosik.minerino.config.ModConfig;
 import net.mooosik.minerino.twitch.Twitch;
-import net.mooosik.minerino.util.SizedStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -39,7 +37,7 @@ public class ChatHudMixin {
             //If its a default minecraft message, add the [Minecraft] prefix
             //This could cause issues if someone is joining the Minecraft twitch channel
             if (text.getString().startsWith("<")) {
-                text = Twitch.buildLinkedText("Minecraft").formatted(Formatting.GREEN).append(new LiteralText(text.getString()).formatted(Formatting.WHITE));
+                text = Twitch.buildLinkedCommandText("Minecraft", "/minerino switch ").formatted(Formatting.GREEN).append(new LiteralText(text.getString()).formatted(Formatting.WHITE));
             }
             if(text.getString().startsWith("[Server]")) {
                 Text tmp = new LiteralText("").append(text).formatted(Formatting.LIGHT_PURPLE).formatted(Formatting.ITALIC);
