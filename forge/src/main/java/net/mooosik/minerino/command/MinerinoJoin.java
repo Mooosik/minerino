@@ -11,11 +11,6 @@ import static com.mojang.brigadier.builder.LiteralArgumentBuilder.literal;
 import static com.mojang.brigadier.builder.RequiredArgumentBuilder.argument;
 
 public class MinerinoJoin {
-
-    /**
-     * Join a channel command
-     * @return
-     */
     public static LiteralArgumentBuilder build() {
 
         return literal("join").then(argument("channel", StringArgumentType.word()).executes(context -> {       //if only login

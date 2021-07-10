@@ -20,13 +20,13 @@ public class TwitchEventHandler {
             return;
         }
         IFormattableTextComponent message = new StringTextComponent("")
-                .appendSibling(Twitch.buildLinkedCommandText(event.getChannel().getName(),"/minerino switch ").mergeStyle(TextFormatting.DARK_PURPLE));
+                .appendSibling(Twitch.buildLinkedText(event.getChannel().getName()).mergeStyle(TextFormatting.DARK_PURPLE));
 
         TextFormatting userNameFormatting;
         if(Twitch.getTwitchUserColors().containsKey(event.getUser().getName())) {
             userNameFormatting = Twitch.getTwitchUserColors().get(event.getUser().getName());
         } else {
-            userNameFormatting = Twitch.calculateMinecraftColor(event.getMessageEvent().getTagValue("color").get());
+            userNameFormatting = Twitch.calculateMCColor(Integer.decode(event.getMessageEvent().getTagValue("color").get()));
             Twitch.getTwitchUserColors().put(event.getUser().getName(), userNameFormatting);
         }
         message.appendSibling(new StringTextComponent(event.getUser().getName()).mergeStyle(userNameFormatting))
