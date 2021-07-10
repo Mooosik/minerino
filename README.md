@@ -87,7 +87,7 @@ Additionally, this is not linked to the ignore feature on twitch and will only a
 
 ## All commands
 ```
-/minerino login [<twitch username> <oAuth>]
+/minerino login [<twitch username> [<oAuth>]]
 /minerino logout
 
 /minerino join <channel>
