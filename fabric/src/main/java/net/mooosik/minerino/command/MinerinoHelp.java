@@ -19,7 +19,7 @@ public class MinerinoHelp {
             ((FabricClientCommandSource) context.getSource())
                     .sendFeedback(new LiteralText("[Minerino] Commands:"));
             ((FabricClientCommandSource) context.getSource())
-                    .sendFeedback(new LiteralText("[Minerino] Logging in: ").append(new LiteralText("/minerino login|logout [<twitch username> <oAuth token>]").formatted(Formatting.GOLD)));
+                    .sendFeedback(new LiteralText("[Minerino] Logging in: ").append(new LiteralText("/minerino login|logout [<twitch username> [<oAuth token>]]").formatted(Formatting.GOLD)));
             ((FabricClientCommandSource) context.getSource())
                     .sendFeedback(new LiteralText("[Minerino] Joining / leaving Channels: ").append(new LiteralText("/minerino join|leave <channel>").formatted(Formatting.GOLD)));
             ((FabricClientCommandSource) context.getSource())
