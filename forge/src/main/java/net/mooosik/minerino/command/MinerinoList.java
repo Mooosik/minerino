@@ -4,7 +4,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.CommandSource;
 import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.mooosik.minerino.twitch.Twitch;
@@ -60,7 +59,7 @@ public class MinerinoList {
         IFormattableTextComponent channels = new StringTextComponent("[Minerino] ");
         for ( String channel : Twitch.getChatMessages().keySet()
         ) {
-            channels.appendSibling(Twitch.buildLinkedText(channel).mergeStyle(TextFormatting.DARK_PURPLE));
+            channels.appendSibling(Twitch.buildLinkedCommandText(channel,"/minerino switch ").mergeStyle(TextFormatting.DARK_PURPLE));
         }
 
         ((CommandSource) context.getSource())

@@ -39,7 +39,7 @@ public class NewChatGuiMixin {
             //This could cause issues if someone is joining the Minecraft twitch channel
             if (text.getString().startsWith("<")) {
                 text = new StringTextComponent("")
-                        .appendSibling(Twitch.buildLinkedText("Minecraft").mergeStyle(TextFormatting.GREEN))
+                        .appendSibling(Twitch.buildLinkedCommandText("Minecraft","/minerino switch ").mergeStyle(TextFormatting.GREEN))
                         .appendSibling(new StringTextComponent(text.getString()).mergeStyle(TextFormatting.WHITE));
             }
 

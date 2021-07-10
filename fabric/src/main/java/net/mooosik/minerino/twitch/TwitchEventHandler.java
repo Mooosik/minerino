@@ -4,7 +4,6 @@ import com.github.philippheuer.events4j.simple.domain.EventSubscriber;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.MessageType;
-import net.minecraft.text.ClickEvent;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
@@ -21,7 +20,7 @@ public class TwitchEventHandler {
             return;
         }
 
-        MutableText message = new LiteralText("").append(Twitch.buildLinkedText(event.getChannel().getName()).formatted(Formatting.DARK_PURPLE));
+        MutableText message = new LiteralText("").append(Twitch.buildLinkedCommandText(event.getChannel().getName(),"/minerino switch ").formatted(Formatting.DARK_PURPLE));
         Formatting userNameFormatting;
         if(Twitch.getTwitchUserColors().containsKey(event.getUser().getName())) {
             userNameFormatting = Twitch.getTwitchUserColors().get(event.getUser().getName());

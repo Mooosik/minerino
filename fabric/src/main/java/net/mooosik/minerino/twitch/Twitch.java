@@ -38,17 +38,17 @@ public class Twitch {
     /**
      * Setup the twitch client
      */
-    public static boolean setup() {
+    public static boolean setup(String username, String key) {
         try {
         TWITCHCLIENT = TwitchClientBuilder.builder()
                 .withEnableChat(true)
                 .withDefaultEventHandler(SimpleEventHandler.class)
-                .withChatAccount(new OAuth2Credential(ModConfig.getConfig().getUsername(), ModConfig.getConfig().getOauthKey()))
+                .withChatAccount(new OAuth2Credential(username, key))
                 .build();
 
 
             TWITCHCLIENT.getEventManager().getEventHandler(SimpleEventHandler.class).registerListener(new TwitchEventHandler());
-
+            ModConfig.getConfig().setActiveAccount(username);
         return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,6 +57,9 @@ public class Twitch {
 
     }
 
+    /**
+     * Closes the connection and sets the client back to null
+     */
     public static void close() {
         if(TWITCHCLIENT != null) {
             TWITCHCLIENT.close();
@@ -206,13 +209,16 @@ public class Twitch {
     }
 
     /**
-     * Builds the prefix and makes it clickable to make switching to different channels easier
-     * @param channel
+     * Builds a linked text with a word and a command
+     * @param word
+     * @param command
      * @return
      */
-    public static MutableText buildLinkedText(String channel) {
-        return new LiteralText("["+ channel + "] ").styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minerino switch " + channel)));
+    public static MutableText buildLinkedCommandText(String word, String command) {
+        return new LiteralText("["+ word + "] ").styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command + word)));
     }
+
+
 
 
     public static void sendMessage(String channel, String message) {
