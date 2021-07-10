@@ -12,10 +12,6 @@ import static com.mojang.brigadier.builder.LiteralArgumentBuilder.literal;
 
 public class MinerinoList {
 
-    /**
-     * Lists all channels command
-     * @return
-     */
     public static LiteralArgumentBuilder build() {
 
         return literal("list").executes(context -> {
@@ -26,10 +22,6 @@ public class MinerinoList {
 
     }
 
-    /**
-     * Lists all channels command
-     * @return
-     */
     public static LiteralArgumentBuilder buildShort() {
 
         return literal("ml").executes(context -> {
@@ -41,12 +33,8 @@ public class MinerinoList {
     }
 
 
-    /**
-     * Gets all channels the client is connected to and posts them in chat
-     * @param context CommandContext
-     * @return whether or not the request was successful
-     */
-    private static int listMessages(CommandContext context) {
+
+    public static int listMessages(CommandContext context) {
 
         if(Twitch.getClient() == null) {
             ((FabricClientCommandSource) context.getSource()).sendError(new LiteralText("[Minerino] Not connected to twitch! Try /minerino login"));
@@ -59,7 +47,7 @@ public class MinerinoList {
         MutableText channels = new LiteralText("[Minerino] ");
         for ( String channel : Twitch.getChatMessages().keySet()
         ) {
-            channels.append(Twitch.buildLinkedCommandText(channel, "/minerino switch ").formatted(Formatting.DARK_PURPLE));
+            channels.append(Twitch.buildLinkedText(channel).formatted(Formatting.DARK_PURPLE));
         }
 
         ((FabricClientCommandSource) context.getSource())

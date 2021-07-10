@@ -39,13 +39,8 @@ public class NewChatGuiMixin {
             //This could cause issues if someone is joining the Minecraft twitch channel
             if (text.getString().startsWith("<")) {
                 text = new StringTextComponent("")
-                        .appendSibling(Twitch.buildLinkedCommandText("Minecraft","/minerino switch ").mergeStyle(TextFormatting.GREEN))
+                        .appendSibling(Twitch.buildLinkedText("Minecraft").mergeStyle(TextFormatting.GREEN))
                         .appendSibling(new StringTextComponent(text.getString()).mergeStyle(TextFormatting.WHITE));
-            }
-
-            if(text.getString().startsWith("[Server]")) {
-                ITextComponent tmp = new StringTextComponent("").appendSibling(text).mergeStyle(TextFormatting.LIGHT_PURPLE).mergeStyle(TextFormatting.ITALIC);
-                return tmp;
             }
 
             if (!text.getString().startsWith("[Minerino]") && Twitch.containsNotification(text.getString())) {        //If the message is a notification in this message
@@ -59,6 +54,7 @@ public class NewChatGuiMixin {
         return text;
     }
 
+
     @Inject(at = @At("HEAD"), method = "printChatMessageWithOptionalDeletion", cancellable = true)
     public void addMessage(ITextComponent message, int messageId, CallbackInfo ci) {
         if(ModConfig.getConfig().INFOFLAG) {
@@ -66,9 +62,7 @@ public class NewChatGuiMixin {
             sendInfoMessage();
         }
         if(!SWITCHMODE) {
-            if(message.getString().startsWith("[Server]")) {        //if its a server message
-                Twitch.getChatMessages().get("Minecraft").push(message);        //add it to Minecraft logs
-            } else if(!message.getString().startsWith("[Minerino]")) {
+            if(!message.getString().startsWith("[Minerino]")) {
                 if (message.getString().startsWith("[")) {        //If the message starts with [. This could lead to issues if something else manipulates the chat
 
                     String startsWith = message.getString().startsWith("[Alert]")?"[Alert][":"[";   //If its an alert, change the startsWith prefix
@@ -79,14 +73,18 @@ public class NewChatGuiMixin {
                             Twitch.getChatMessages().get(key).push(message);
                             break;
                         }
+
                     }
                     //If message is not an alert and is not a message belonging to the current chat, dont show it
                     if (!message.getString().startsWith("[Alert]") && !message.getString().startsWith("[" + ModConfig.getConfig().getActiveChat())) {
                         ci.cancel();
                     }
+
                 }
             }
 
         }
     }
+
+
 }

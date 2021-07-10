@@ -18,6 +18,7 @@ public class MinerinoAlert {
      * @return
      */
     public static LiteralArgumentBuilder build() {
+
         return literal("alert")
                 .then(literal("add")
                 .then(argument("trigger",StringArgumentType.word())

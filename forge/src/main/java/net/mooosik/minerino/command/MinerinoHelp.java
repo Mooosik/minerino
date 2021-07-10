@@ -10,10 +10,6 @@ import static com.mojang.brigadier.builder.LiteralArgumentBuilder.literal;
 
 public class MinerinoHelp {
 
-    /**
-     * Lists all commands of the mod
-     * @return
-     */
     public static LiteralArgumentBuilder build() {
 
         return literal("help").executes(context -> {
@@ -21,7 +17,7 @@ public class MinerinoHelp {
             ((CommandSource) context.getSource())
                     .sendFeedback(new StringTextComponent("[Minerino] Commands:"), false);
             ((CommandSource) context.getSource())
-                    .sendFeedback(new StringTextComponent("[Minerino] Logging in: ").appendSibling(new StringTextComponent("/minerino login|logout [<twitch username> [<oAuth token>]]").mergeStyle(TextFormatting.GOLD)), false);
+                    .sendFeedback(new StringTextComponent("[Minerino] Logging in: ").appendSibling(new StringTextComponent("/minerino login|logout [<twitch username> <oAuth token>]").mergeStyle(TextFormatting.GOLD)), false);
             ((CommandSource) context.getSource())
                     .sendFeedback(new StringTextComponent("[Minerino] Joining / leaving Channels: ").appendSibling(new StringTextComponent("/minerino join|leave <channel>").mergeStyle(TextFormatting.GOLD)), false);
             ((CommandSource) context.getSource())

@@ -29,17 +29,17 @@ public class Twitch {
     /**
      * Setup the twitch client
      */
-    public static boolean setup(String username, String key) {
+    public static boolean setup() {
         try {
             TWITCHCLIENT = TwitchClientBuilder.builder()
                     .withEnableChat(true)
                     .withDefaultEventHandler(SimpleEventHandler.class)
-                    .withChatAccount(new OAuth2Credential(username, key))
+                    .withChatAccount(new OAuth2Credential(ModConfig.getConfig().getUsername(), ModConfig.getConfig().getOauthKey()))
                     .build();
 
 
             TWITCHCLIENT.getEventManager().getEventHandler(SimpleEventHandler.class).registerListener(new TwitchEventHandler());
-            ModConfig.getConfig().setActiveAccount(username);
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,14 +48,9 @@ public class Twitch {
 
     }
 
-    /**
-     * Closes the connection and sets the client back to null
-     */
     public static void close() {
-        if(TWITCHCLIENT != null) {
-            TWITCHCLIENT.close();
-            TWITCHCLIENT = null;
-        }
+        TWITCHCLIENT.close();
+        TWITCHCLIENT = null;
     }
 
 
@@ -93,52 +88,29 @@ public class Twitch {
         return TWITCHCLIENT;
     }
 
-
     /**
      * Calculate chat color based on distance
-     * @param hex string
+     * @param color
      * @return
      */
-    public static TextFormatting calculateMinecraftColor(String hex) {
+    public static TextFormatting calculateMCColor(Integer color) {
+        int i = colors.length -1;
+        int distance = Math.abs(colors[i].getColor() - color);
+        int tmp;
 
-        java.awt.Color twitchColor = java.awt.Color.decode(hex);
-        TextFormatting calculatedFormatting = TextFormatting.WHITE;
-        double dist = 10000;
-        for (TextFormatting f: colors
-        ) {
-            java.awt.Color tmpColor = new java.awt.Color(f.getColor());
-            double tmp = colorDistance(twitchColor, tmpColor);
-
-            if(tmp < dist) {
-                dist = tmp;
-                calculatedFormatting = f;
+        TextFormatting f = colors[0];
+        for(i = 14;i >= 0; i--) {
+            tmp = Math.abs(colors[i].getColor() - color);
+            if(tmp < distance ) {
+                distance = tmp;
+                f = colors[i];
             }
-
         }
 
-        return calculatedFormatting;
+        return f;
+
+
     }
-
-    /**
-     * Calculates the distance between two colors
-     * Based on this paper: https://www.compuphase.com/cmetric.htm
-     * @param c1 color 1
-     * @param c2 color 2
-     * @return distance
-     */
-    private static double colorDistance(java.awt.Color c1, java.awt.Color c2) {
-        int red1 = c1.getRed();
-        int red2 = c2.getRed();
-        int rmean = (red1 + red2) >> 1;
-        int r = red1 - red2;
-        int g = c1.getGreen() - c2.getGreen();
-        int b = c1.getBlue() - c2.getBlue();
-        return Math.sqrt((((512+rmean)*r*r)>>8) + 4*g*g + (((767-rmean)*b*b)>>8));
-    }
-
-
-
-
 
     /***
      * Join a channel and add it the channel to the chatMessages HashMap
@@ -203,13 +175,12 @@ public class Twitch {
     }
 
     /**
-     * Builds a linked text with a word and a command
-     * @param word
-     * @param command
+     * Builds the prefix and makes it clickable to make switching to different channels easier
+     * @param channel
      * @return
      */
-    public static IFormattableTextComponent buildLinkedCommandText(String word, String command) {
-        return new StringTextComponent("["+ word + "] ").modifyStyle((style) -> style.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command + word)));
+    public static IFormattableTextComponent buildLinkedText(String channel) {
+        return new StringTextComponent("["+ channel + "] ").modifyStyle((style) -> style.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minerino switch " + channel)));
     }
 }
 

@@ -15,10 +15,6 @@ import static net.minecraft.server.command.CommandManager.literal;
 
 public class MinerinoSwitch {
 
-    /**
-     * Command to switch to a different channel
-     * @return
-     */
     public static LiteralArgumentBuilder build() {
         return literal("switch")
                 .then(argument("channel", StringArgumentType.word()).suggests((context, builder) -> {

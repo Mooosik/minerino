@@ -12,11 +12,6 @@ import static net.minecraft.server.command.CommandManager.literal;
 
 public class MinerinoJoin {
 
-
-    /**
-     * Join a channel command
-     * @return
-     */
     public static LiteralArgumentBuilder build() {
 
         return literal("join").then(argument("channel", StringArgumentType.word()).executes(context -> {       //if only login

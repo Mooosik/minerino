@@ -1,14 +1,15 @@
 package net.mooosik.minerino.config;
 
-import com.google.gson.*;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import net.fabricmc.loader.api.FabricLoader;
@@ -20,12 +21,12 @@ public class ModConfig {
     private final File configFile;
 
     private String channel;
+    private String username;
+    private String oauthKey;
     private List<String> ignoreList;
     private List<String> notificationList;
-    private HashMap<String, String> accounts;
 
     private String activeChat;
-    private String activeAccount;
 
     private List<String> channels;
 
@@ -37,10 +38,11 @@ public class ModConfig {
                 .resolve("minerino.json")
                 .toFile();
         this.channel = "";
+        this.username = "";
+        this.oauthKey = "";
         this.ignoreList = new ArrayList<>();
         this.notificationList = new ArrayList<>();
         this.channels = new ArrayList<>();
-        this.accounts = new HashMap<>();
         this.activeChat = "Minecraft";
     }
 
@@ -61,6 +63,12 @@ public class ModConfig {
                 this.activeChat = jsonObject.has("channel")
                         ? jsonObject.getAsJsonPrimitive("channel").getAsString()
                         : "Minecraft";
+                this.username = jsonObject.has("username")
+                        ? jsonObject.getAsJsonPrimitive("username").getAsString()
+                        : "";
+                this.oauthKey = jsonObject.has("oauthKey")
+                        ? jsonObject.getAsJsonPrimitive("oauthKey").getAsString()
+                        : "";
 
                 if (jsonObject.has("channels")) {
                     JsonArray ignoreListJsonArray = jsonObject.getAsJsonArray("channels");
@@ -69,6 +77,8 @@ public class ModConfig {
                         this.channels.add(usernameJsonElement.getAsString());
                     }
                 }
+
+
 
                 if (jsonObject.has("ignoreList")) {
                     JsonArray ignoreListJsonArray = jsonObject.getAsJsonArray("ignoreList");
@@ -86,13 +96,6 @@ public class ModConfig {
                     }
                 }
 
-                Gson gson = new GsonBuilder().create();
-                if (jsonObject.has("accounts")) {
-                    JsonArray ignoreListJsonArray = jsonObject.getAsJsonArray("channels");
-                    this.accounts = gson.fromJson(jsonObject.get("accounts"), HashMap.class);
-                }
-
-
             }
         } catch (IOException e) {
             // Do nothing, we have no file and thus we have to keep everything as default
@@ -102,6 +105,8 @@ public class ModConfig {
     public void save() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("activeChat", this.activeChat);
+        jsonObject.addProperty("username", this.username);
+        jsonObject.addProperty("oauthKey", this.oauthKey);
 
 
         JsonArray channelsList = new JsonArray();
@@ -123,8 +128,6 @@ public class ModConfig {
         }
         jsonObject.add("notificationList", notificationListArray );
 
-        Gson gson = new Gson();
-        jsonObject.add("accounts", gson.toJsonTree(accounts));
 
         try (PrintWriter out = new PrintWriter(configFile)) {
             out.println(jsonObject.toString());
@@ -140,6 +143,23 @@ public class ModConfig {
     public void setChannel(String channel) {
         this.channel = channel;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getOauthKey() {
+        return oauthKey;
+    }
+
+    public void setOauthKey(String oauthKey) {
+        this.oauthKey = oauthKey;
+    }
+
 
     public List<String> getIgnoreList() {
         return ignoreList;
@@ -166,21 +186,5 @@ public class ModConfig {
 
     public void setActiveChat(String activeChat) {
         this.activeChat = activeChat;
-    }
-
-    public void addAccount(String username, String oauthKey) {
-        this.accounts.put(username.toLowerCase(),oauthKey);
-    }
-
-    public HashMap<String, String> getAccounts() {
-        return accounts;
-    }
-
-    public String getUsername() {
-        return activeAccount;
-    }
-
-    public void setActiveAccount(String username) {
-        activeAccount = username;
     }
 }

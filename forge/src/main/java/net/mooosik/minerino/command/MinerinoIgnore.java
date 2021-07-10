@@ -11,7 +11,7 @@ import static com.mojang.brigadier.builder.RequiredArgumentBuilder.argument;
 
 public class MinerinoIgnore {
     /**
-     * Add a user to the ignore list
+     * add a user to the ignore list
      * @return
      */
     public static LiteralArgumentBuilder build() {
