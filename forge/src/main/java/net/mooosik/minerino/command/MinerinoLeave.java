@@ -11,6 +11,11 @@ import static com.mojang.brigadier.builder.LiteralArgumentBuilder.literal;
 import static com.mojang.brigadier.builder.RequiredArgumentBuilder.argument;
 
 public class MinerinoLeave {
+
+    /**
+     * Leave a channel
+     * @return
+     */
     public static LiteralArgumentBuilder build() {
 
         return literal("leave").then(argument("channel", StringArgumentType.word()).suggests((context, builder) -> {
