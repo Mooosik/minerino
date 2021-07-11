@@ -22,7 +22,7 @@ public class ScreenMixin {
     private void sendMessage(String text, boolean showInHistory, CallbackInfo ci) {
         ModConfig config = ModConfig.getConfig();
 
-        if(!config.getActiveChat().equals("Minecraft") && !text.startsWith("/")) {      //If the currently active chat is not minecraft AND its not a command
+        if(!config.getActiveChat().equals("MC") && !text.startsWith("/")) {      //If the currently active chat is not minecraft AND its not a command
 
             Twitch.getClient().getChat().sendMessage(config.getActiveChat(), text);     //Send the message via TwitchClient
 

@@ -26,7 +26,7 @@ public class ChatHudMixin {
     /**
      * Injection that modifies the text parameter to perform a notifications check
      * @param text text that gets modified
-     * @return
+     * @return modified text
      */
     @ModifyArg(method = "addMessage", at = @At(value ="INVOKE",     //It claims this is an error, but it isn't FeelsDankMan
             target = "Lnet/minecraft/client/gui/hud/ChatHud;addMessage(Lnet/minecraft/text/Text;I)V" ),
@@ -37,18 +37,17 @@ public class ChatHudMixin {
             //If its a default minecraft message, add the [Minecraft] prefix
             //This could cause issues if someone is joining the Minecraft twitch channel
             if (text.getString().startsWith("<")) {
-                text = Twitch.buildLinkedCommandText("Minecraft", "/minerino switch ").formatted(Formatting.GREEN).append(new LiteralText(text.getString()).formatted(Formatting.WHITE));
+                text = Twitch.buildLinkedCommandText("MC", "/minerino switch ").formatted(Formatting.GREEN).append(new LiteralText(text.getString()).formatted(Formatting.WHITE));
             }
             if(text.getString().startsWith("[Server]")) {
-                Text tmp = new LiteralText("").append(text).formatted(Formatting.LIGHT_PURPLE).formatted(Formatting.ITALIC);
-                return tmp;
+                return new LiteralText("").append(text).formatted(Formatting.LIGHT_PURPLE).formatted(Formatting.ITALIC);
             }
 
             if (!text.getString().startsWith("[Minerino]") && Twitch.containsNotification(text.getString())) {        //If the message is a notification in this message
                 PlayerEntity player = MinecraftClient.getInstance().player;   //get the player to play a sound at the player's location
                 MinecraftClient.getInstance().world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.BLOCKS, 0.5f, 1f);
-                Text tmp = new LiteralText("[Alert]").append(text).formatted(Formatting.RED); //change the color of the message to red so it stands out
-                return tmp;
+
+                return new LiteralText("[Alert]").append(text).formatted(Formatting.RED); //change the color of the message to red so it stands out
             }
 
         }
@@ -60,7 +59,7 @@ public class ChatHudMixin {
 
         if(!SWITCHMODE) {
             if(message.getString().startsWith("[Server]")) {        //if its a server message
-                Twitch.getChatMessages().get("Minecraft").push(message);        //add it to Minecraft logs
+                Twitch.getChatMessages().get("MC").push(message);        //add it to Minecraft logs
             } else if(!message.getString().startsWith("[Minerino]")) {
                 if (message.getString().startsWith("[")) {        //If the message starts with [. This could lead to issues if something else manipulates the chat
 

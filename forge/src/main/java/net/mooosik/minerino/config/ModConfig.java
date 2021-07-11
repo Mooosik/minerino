@@ -42,7 +42,7 @@ public class ModConfig {
         this.notificationList = new ArrayList<>();
         this.channels = new ArrayList<>();
         this.accounts = new HashMap<>();
-        this.activeChat = "Minecraft";
+        this.activeChat = "MC";
         this.sendInfoMessage = true;
     }
 
@@ -60,9 +60,13 @@ public class ModConfig {
             if (!jsonStr. equals("")) {
                 JsonParser jsonParser = new JsonParser();
                 JsonObject jsonObject = (JsonObject) jsonParser.parse(jsonStr);
-                this.activeChat = jsonObject.has("channel")
-                        ? jsonObject.getAsJsonPrimitive("channel").getAsString()
-                        : "Minecraft";
+                this.activeChat = jsonObject.has("activeChat")
+                        ? jsonObject.getAsJsonPrimitive("activeChat").getAsString()
+                        : "MC";
+                if(this.activeChat.equals("Minecraft")) {       //We do this to make sure that in case older config files are used, it still works
+                    this.activeChat = "MC";
+                }
+
 
                 this.sendInfoMessage = jsonObject.has("sendInfoMessage")
                         ? jsonObject.getAsJsonPrimitive("sendInfoMessage").getAsBoolean()
@@ -168,7 +172,7 @@ public class ModConfig {
 
     public String getActiveChat() {
         if(Twitch.getClient() == null) {
-            return "Minecraft";
+            return "MC";
         }
         return activeChat;
     }

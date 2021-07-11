@@ -39,7 +39,7 @@ public class NewChatGuiMixin {
             //This could cause issues if someone is joining the Minecraft twitch channel
             if (text.getString().startsWith("<")) {
                 text = new StringTextComponent("")
-                        .appendSibling(Twitch.buildLinkedCommandText("Minecraft","/minerino switch ").mergeStyle(TextFormatting.GREEN))
+                        .appendSibling(Twitch.buildLinkedCommandText("MC","/minerino switch ").mergeStyle(TextFormatting.GREEN))
                         .appendSibling(new StringTextComponent(text.getString()).mergeStyle(TextFormatting.WHITE));
             }
 
@@ -67,7 +67,7 @@ public class NewChatGuiMixin {
         }
         if(!SWITCHMODE) {
             if(message.getString().startsWith("[Server]")) {        //if its a server message
-                Twitch.getChatMessages().get("Minecraft").push(message);        //add it to Minecraft logs
+                Twitch.getChatMessages().get("MC").push(message);        //add it to Minecraft logs
             } else if(!message.getString().startsWith("[Minerino]")) {
                 if (message.getString().startsWith("[")) {        //If the message starts with [. This could lead to issues if something else manipulates the chat
 

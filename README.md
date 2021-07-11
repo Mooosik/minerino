@@ -6,7 +6,7 @@ A Twitch Chat Integration for Minecraft!
     - ```/minerino login username oauth``` now saves multiple accounts in the config
     - ```/minerino login username``` lets you log into a specific account
     - ```/minerino login``` will now show a list of saved accounts if more than one account is registered
-
+- Minecraft chat renamed to "MC". This way the message is shorter + you're able to join the Minecraft twitch channel
 ## About
 This mod aims to bring a lot of features from the standalone twitch chat software chatterino (https://chatterino.com/) to Minecraft.
 

@@ -1,6 +1,7 @@
 package net.mooosik.minerino.config;
 
 import com.google.gson.*;
+import net.mooosik.minerino.twitch.Twitch;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,13 +12,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import net.fabricmc.loader.api.FabricLoader;
-import net.mooosik.minerino.twitch.Twitch;
-
 public class ModConfig {
 
     private static ModConfig CONFIG = null;
     private final File configFile;
+
+    private boolean sendInfoMessage;
+    public boolean INFOFLAG;
 
     private String channel;
     private List<String> ignoreList;
@@ -30,18 +31,19 @@ public class ModConfig {
     private List<String> channels;
 
     public ModConfig() {
-        this.configFile = FabricLoader
-                .getInstance()
-                .getConfigDirectory()
-                .toPath()
-                .resolve("minerino.json")
-                .toFile();
+        this.configFile = new File("minerino.json");
+        try {
+            this.configFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.channel = "";
         this.ignoreList = new ArrayList<>();
         this.notificationList = new ArrayList<>();
         this.channels = new ArrayList<>();
         this.accounts = new HashMap<>();
-        this.activeChat = "Minecraft";
+        this.activeChat = "MC";
+        this.sendInfoMessage = true;
     }
 
     public static ModConfig getConfig() {
@@ -58,9 +60,19 @@ public class ModConfig {
             if (!jsonStr. equals("")) {
                 JsonParser jsonParser = new JsonParser();
                 JsonObject jsonObject = (JsonObject) jsonParser.parse(jsonStr);
-                this.activeChat = jsonObject.has("channel")
-                        ? jsonObject.getAsJsonPrimitive("channel").getAsString()
-                        : "Minecraft";
+                this.activeChat = jsonObject.has("activeChat")
+                        ? jsonObject.getAsJsonPrimitive("activeChat").getAsString()
+                        : "MC";
+                if(this.activeChat.equals("Minecraft")) {       //We do this to make sure that in case older config files are used, it still works
+                    this.activeChat = "MC";
+                }
+
+
+                this.sendInfoMessage = jsonObject.has("sendInfoMessage")
+                        ? jsonObject.getAsJsonPrimitive("sendInfoMessage").getAsBoolean()
+                        : true;
+
+                INFOFLAG = this.sendInfoMessage;
 
                 if (jsonObject.has("channels")) {
                     JsonArray ignoreListJsonArray = jsonObject.getAsJsonArray("channels");
@@ -102,7 +114,7 @@ public class ModConfig {
     public void save() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("activeChat", this.activeChat);
-
+        jsonObject.addProperty("sendInfoMessage", this.sendInfoMessage);
 
         JsonArray channelsList = new JsonArray();
         for (String username : this.channels) {
@@ -111,7 +123,7 @@ public class ModConfig {
         jsonObject.add("channels",channelsList);
 
 
-            JsonArray ignoreListJsonArray = new JsonArray();
+        JsonArray ignoreListJsonArray = new JsonArray();
         for (String username : this.ignoreList) {
             ignoreListJsonArray.add(username);
         }
@@ -131,6 +143,7 @@ public class ModConfig {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
     }
 
     public String getChannel() {
@@ -159,13 +172,21 @@ public class ModConfig {
 
     public String getActiveChat() {
         if(Twitch.getClient() == null) {
-            return "Minecraft";
+            return "MC";
         }
         return activeChat;
     }
 
     public void setActiveChat(String activeChat) {
         this.activeChat = activeChat;
+    }
+
+    public boolean isSendInfoMessage() {
+        return sendInfoMessage;
+    }
+
+    public void setSendInfoMessage(boolean sendInfoMessage) {
+        this.sendInfoMessage = sendInfoMessage;
     }
 
     public void addAccount(String username, String oauthKey) {
