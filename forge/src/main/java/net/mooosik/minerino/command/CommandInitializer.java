@@ -89,7 +89,7 @@ public class CommandInitializer {
 
 
         Minecraft.getInstance().ingameGUI.sendChatMessage(ChatType.CHAT, new StringTextComponent("[Minerino] Dont show this message again: ").appendSibling(
-        new StringTextComponent("[ Click here ] ")
+        new StringTextComponent("[ Click here ] ").mergeStyle(TextFormatting.BLUE)
                 .modifyStyle((style) -> style.setClickEvent(
                         new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minerino infoMessage false")))), UUID.randomUUID());
 

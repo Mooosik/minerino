@@ -24,7 +24,7 @@ public class Minerino implements ModInitializer {
 
 		ModConfig.getConfig().load();
 
-		Twitch.getChatMessages().put("Minecraft", new SizedStack<>(50));
+		Twitch.getChatMessages().put("MC", new SizedStack<>(50));
 
 	}
 

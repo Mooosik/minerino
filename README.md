@@ -1,5 +1,12 @@
-# Minerino | v.0.1
+# Minerino | v.0.2
 A Twitch Chat Integration for Minecraft!
+### New in this version
+- Improved Username colors
+- Support for multiple accounts (alt accounts)
+    - ```/minerino login username oauth``` now saves multiple accounts in the config
+    - ```/minerino login username``` lets you log into a specific account
+    - ```/minerino login``` will now show a list of saved accounts if more than one account is registered
+- Minecraft chat renamed to "MC". This way the message is shorter + you're able to join the Minecraft twitch channel
 ## About
 This mod aims to bring a lot of features from the standalone twitch chat software chatterino (https://chatterino.com/) to Minecraft.
 
@@ -40,10 +47,14 @@ To avoid leaking sensitive data, I recommend you to do the first login in a sing
 
 ### Logging in
 
-Use ```/minerino login <twitch username> <oAuth>``` to get started. If you don't have an authentication token already, you can generate one on this website: https://twitchapps.com/tmi/ . Keep this token secret, do not show it to anyone!
-(This is only required once. Minerino will store your token in a config file. Use ```/minerino login``` from now on)
+Use ```/minerino login <twitch username> <oAuth>``` to get started. You can log into multiple accounts (alt accounts).  
+If you don't have an authentication token already, you can generate one on this website: https://twitchapps.com/tmi/ . Keep this token secret, do not show it to anyone!
 
-(Use ```/minerino logout``` to close the connection to twitch)
+The token is only required for the first log-in. You can use ```/minerino login``` from now on.
+If you have multiple accounts, the command will bring up a list of all registered accounts.
+To log into a specific account directly, use ```/minerino login username```
+
+(Use ```/minerino logout``` to close the connection to twitch. Not necessary for switching accounts)
 ### Joining channels
 To join a channel, use ```/minerino join <channel>```. You can join as many channels as you want. 
 For better readability, you only see one channel at a time.
@@ -76,7 +87,7 @@ Additionally, this is not linked to the ignore feature on twitch and will only a
 
 ## All commands
 ```
-/minerino login [<twitch username> <oAuth>]
+/minerino login [<twitch username> [<oAuth>]]
 /minerino logout
 
 /minerino join <channel>
@@ -107,3 +118,4 @@ Additionally, this is not linked to the ignore feature on twitch and will only a
 **Important!** This mod is not affiliated with the Chatterino software in any way!
 
 This mod uses the twitch4j java api (https://github.com/twitch4j/twitch4j)
+

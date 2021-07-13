@@ -54,7 +54,7 @@ public class Minerino {
         CommandInitializer.setup();
         ModConfig.getConfig().load();
         ModConfig.getConfig().save();
-        Twitch.getChatMessages().put("Minecraft", new SizedStack<>(50));
+        Twitch.getChatMessages().put("MC", new SizedStack<>(50));
 
     }
 
