@@ -28,6 +28,7 @@ public class Twitch {
 
     /**
      * Setup the twitch client
+     *
      */
     public static boolean setup(String username, String key) {
         try {
