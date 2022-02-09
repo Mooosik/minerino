@@ -1,5 +1,5 @@
 package net.mooosik.minerino.mixin;
-/*
+
 
 import me.lambdaurora.spruceui.Position;
 import me.lambdaurora.spruceui.widget.SpruceButtonWidget;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * Currently unused. WIP
  */
-/*@Mixin(TitleScreen.class)
+@Mixin(TitleScreen.class)
 public class TitleScreenMixin extends Screen {
     protected TitleScreenMixin(Text title) {
         super(title);
@@ -30,4 +30,3 @@ public class TitleScreenMixin extends Screen {
 
     }
 }
-*/

@@ -1,6 +1,6 @@
 package net.mooosik.minerino.gui;
 
-/*
+
 import io.micrometer.core.lang.Nullable;
 import me.lambdaurora.spruceui.Position;
 import me.lambdaurora.spruceui.SpruceTexts;
@@ -22,7 +22,7 @@ import net.minecraft.util.Formatting;
 
 /**
  * This class is wip */
-/*public class SpruceMainMenuScreen extends SpruceScreen {
+public class SpruceMainMenuScreen extends SpruceScreen {
     private final Screen parent;
     private SpruceTabbedWidget tabbedWidget;
     public SpruceMainMenuScreen(@Nullable Screen parent) {
@@ -95,4 +95,4 @@ import net.minecraft.util.Formatting;
     public void renderTitle(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 8, 16777215);
     }
-}*/
+}
