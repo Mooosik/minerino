@@ -32,7 +32,9 @@ public class Twitch {
 
     private static HashMap<String, SizedStack<Text>> chatMessages = new HashMap<>();
 
-
+    /**
+     * Boolean that is set to active when switching channels. this stops the chat from adding additional prefixes to message history
+     */
     public static boolean SWITCHMODE = false;
 
     /**
@@ -70,8 +72,8 @@ public class Twitch {
 
     /**
      * Check if the message contains a notification
-     * @param message
-     * @return
+     * @param message The message
+     * @return whether or not the messsage contains a notification
      */
     public static boolean containsNotification(String message) {
         List<String> notifications = ModConfig.getConfig().getNotificationList();
@@ -79,29 +81,15 @@ public class Twitch {
         for (String s: notifications
              ) {
 
-            String regex = "^.+?(> |: ).*\\b@?"+ s + "\\b";     //This regex string was created with the help of @nakomaru (on twitch). Thanks DonkHappy
+            String regex = "^.+?(> |: ).*\\b@?"+ s + "\\b";     //regex pattern to check for notifications and excluding the usernames
             Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 
             if(p.matcher(message).find()) {
                 return true;
             }
-
-
         }
-
         return false;
     }
-
-
-
-    public static HashMap<String, Formatting> getTwitchUserColors() {
-        return TwitchUserColors;
-    }
-
-    public static TwitchClient getClient() {
-        return TWITCHCLIENT;
-    }
-
 
     /**
      * Calculate chat color based on distance
@@ -209,21 +197,34 @@ public class Twitch {
     }
 
     /**
-     * Builds a linked text with a word and a command
-     * @param word
-     * @param command
-     * @return
+     * Builds a linked text using a word and a command
+     * @param word the word
+     * @param command the command that should be executed
+     * @return the LiteralText
      */
     public static MutableText buildLinkedCommandText(String word, String command) {
         return new LiteralText("["+ word + "] ").styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command + word)));
     }
 
-
-
-
+    /**
+     * Send a a message to a channel
+     * @param channel the channel
+     * @param message the message
+     */
     public static void sendMessage(String channel, String message) {
         TWITCHCLIENT.getChat().sendMessage(channel, message);     //Send the message via TwitchClient
     }
+
+
+    public static HashMap<String, Formatting> getTwitchUserColors() {
+        return TwitchUserColors;
+    }
+
+    public static TwitchClient getClient() {
+        return TWITCHCLIENT;
+    }
+
+
 
 }
 

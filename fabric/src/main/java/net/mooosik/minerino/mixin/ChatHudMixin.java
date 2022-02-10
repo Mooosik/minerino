@@ -19,26 +19,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static net.mooosik.minerino.twitch.Twitch.SWITCHMODE;
 
+/**
+ * TODO: further simplify this class as the way it is structured is unnecessarily complicated at the moment
+ */
 @Mixin(ChatHud.class)
 public class ChatHudMixin {
 
 
     /**
-     * Injection that modifies the text parameter to perform a notifications check
+     * Modifies the text to perform a notifications check
      * @param text text that gets modified
      * @return modified text
      */
-    @ModifyArg(method = "addMessage", at = @At(value ="INVOKE",     //It claims this is an error, but it isn't FeelsDankMan
-            target = "Lnet/minecraft/client/gui/hud/ChatHud;addMessage(Lnet/minecraft/text/Text;I)V" ),
-            index = 0)
+  /*  @ModifyArg(method = "addMessage", at = @At(value ="INVOKE",     //It claims this is an error, but it isn't FeelsDankMan
+            target = "Lnet/minecraft/client/gui/hud/ChatHud;addMessage(Lnet/minecraft/text/Text;I)V" ),                 //this injection is not necessary
+            index = 0)*/
     public Text modifyText(Text text) {
-
-        if(!SWITCHMODE) {
             //If its a default minecraft message, add the [Minecraft] prefix
             //This could cause issues if someone is joining the Minecraft twitch channel
             if (text.getString().startsWith("<")) {
                 text = Twitch.buildLinkedCommandText("MC", "/minerino switch ").formatted(Formatting.GREEN).append(new LiteralText(text.getString()).formatted(Formatting.WHITE));
             }
+
             if(text.getString().startsWith("[Server]")) {
                 return new LiteralText("").append(text).formatted(Formatting.LIGHT_PURPLE).formatted(Formatting.ITALIC);
             }
@@ -49,8 +51,6 @@ public class ChatHudMixin {
 
                 return new LiteralText("[Alert]").append(text).formatted(Formatting.RED); //change the color of the message to red so it stands out
             }
-
-        }
         return text;
     }
 
@@ -58,9 +58,27 @@ public class ChatHudMixin {
     public void addMessage(Text message, int messageId, CallbackInfo ci) {
 
         if(!SWITCHMODE) {
+            //message = modifyText(message);
+
+            if (message.getString().startsWith("<")) {
+                message = Twitch.buildLinkedCommandText("MC", "/minerino switch ").formatted(Formatting.GREEN).append(new LiteralText(message.getString()).formatted(Formatting.WHITE));
+            }
+
+
             if(message.getString().startsWith("[Server]")) {        //if its a server message
+                message = new LiteralText("").append(message).formatted(Formatting.LIGHT_PURPLE).formatted(Formatting.ITALIC);
                 Twitch.getChatMessages().get("MC").push(message);        //add it to Minecraft logs
+
             } else if(!message.getString().startsWith("[Minerino]")) {
+
+                if(Twitch.containsNotification(message.getString())) {        //If the message is a notification in this message
+                    PlayerEntity player = MinecraftClient.getInstance().player;   //get the player to play a sound at the player's location
+                    MinecraftClient.getInstance().world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.BLOCKS, 0.5f, 1f);
+
+                    message = new LiteralText("[Alert]").append(message).formatted(Formatting.RED); //change the color of the message to red so it stands out
+                }
+
+
                 if (message.getString().startsWith("[")) {        //If the message starts with [. This could lead to issues if something else manipulates the chat
 
                     String startsWith = message.getString().startsWith("[Alert]")?"[Alert][":"[";   //If its an alert, change the startsWith prefix

@@ -12,15 +12,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Class responsible for storing settings in a config file
+ *
+ */
 public class ModConfig {
 
+    /**
+     * Instance
+     */
     private static ModConfig CONFIG = null;
+
+    /**
+     * File
+     */
     private final File configFile;
 
+    /**
+     * Send Info Message
+     */
     private boolean sendInfoMessage;
     public boolean INFOFLAG;
 
-    private String channel;
     private List<String> ignoreList;
     private List<String> notificationList;
     private HashMap<String, String> accounts;
@@ -37,7 +50,6 @@ public class ModConfig {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.channel = "";
         this.ignoreList = new ArrayList<>();
         this.notificationList = new ArrayList<>();
         this.channels = new ArrayList<>();
@@ -54,6 +66,9 @@ public class ModConfig {
         return CONFIG;
     }
 
+    /**
+     * Load settings from file
+     */
     public void load() {
         try {
             String jsonStr = new String(Files.readAllBytes(this.configFile.toPath()));
@@ -111,6 +126,9 @@ public class ModConfig {
         }
     }
 
+    /**
+     * Save data
+     */
     public void save() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("activeChat", this.activeChat);
@@ -146,13 +164,6 @@ public class ModConfig {
 
     }
 
-    public String getChannel() {
-        return channel;
-    }
-
-    public void setChannel(String channel) {
-        this.channel = channel;
-    }
 
     public List<String> getIgnoreList() {
         return ignoreList;
