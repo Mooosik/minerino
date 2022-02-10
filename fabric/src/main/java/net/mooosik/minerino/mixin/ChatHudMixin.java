@@ -25,35 +25,6 @@ import static net.mooosik.minerino.twitch.Twitch.SWITCHMODE;
 @Mixin(ChatHud.class)
 public class ChatHudMixin {
 
-
-    /**
-     * Modifies the text to perform a notifications check
-     * @param text text that gets modified
-     * @return modified text
-     */
-  /*  @ModifyArg(method = "addMessage", at = @At(value ="INVOKE",     //It claims this is an error, but it isn't FeelsDankMan
-            target = "Lnet/minecraft/client/gui/hud/ChatHud;addMessage(Lnet/minecraft/text/Text;I)V" ),                 //this injection is not necessary
-            index = 0)*/
-    public Text modifyText(Text text) {
-            //If its a default minecraft message, add the [Minecraft] prefix
-            //This could cause issues if someone is joining the Minecraft twitch channel
-            if (text.getString().startsWith("<")) {
-                text = Twitch.buildLinkedCommandText("MC", "/minerino switch ").formatted(Formatting.GREEN).append(new LiteralText(text.getString()).formatted(Formatting.WHITE));
-            }
-
-            if(text.getString().startsWith("[Server]")) {
-                return new LiteralText("").append(text).formatted(Formatting.LIGHT_PURPLE).formatted(Formatting.ITALIC);
-            }
-
-            if (!text.getString().startsWith("[Minerino]") && Twitch.containsNotification(text.getString())) {        //If the message is a notification in this message
-                PlayerEntity player = MinecraftClient.getInstance().player;   //get the player to play a sound at the player's location
-                MinecraftClient.getInstance().world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.BLOCKS, 0.5f, 1f);
-
-                return new LiteralText("[Alert]").append(text).formatted(Formatting.RED); //change the color of the message to red so it stands out
-            }
-        return text;
-    }
-
     @Inject(at = @At("HEAD"), method = "addMessage(Lnet/minecraft/text/Text;I)V", cancellable = true)
     public void addMessage(Text message, int messageId, CallbackInfo ci) {
 
